@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class DejaVuBot
+public class TestRun
 {
     /* Public OpMode members. */
     public DcMotor  leftFrontMotor   = null;
@@ -55,7 +55,7 @@ public class DejaVuBot
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public DejaVuBot(){
+    public TestRun(){
 
     }
 
