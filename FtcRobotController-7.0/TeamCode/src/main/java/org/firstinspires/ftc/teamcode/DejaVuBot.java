@@ -41,10 +41,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class DejaVuBot
 {
     /* Public OpMode members. */
-    public DcMotor  leftFrontMotor   = null;
-    public DcMotor  rightFrontMotor  = null;
-    public DcMotor  leftBackMotor    = null;
-    public DcMotor  rightBackMotor  = null;
+    public DcMotor  leftFront   = null;
+    public DcMotor  rightFront  = null;
+    public DcMotor  leftBack   = null;
+    public DcMotor  rightBack  = null;
+    public DcMotor Duck = null
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 public class GamePadOpMode extends LinearOpMode {
     DejaVuBot robot = new DejaVuBot();
     private ElapsedTime runtime = new ElapsedTime();
-//hello!
+
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
     @Override
