@@ -4,63 +4,57 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import java.util.HashMap;
+import java.util.Hashtable;
+
 public class DejaVuArm {
     /* Public OpMode members. */
-    public DcMotor armMotor   = null;
-    public Servo bucketServo  = null;
-
-    public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
-
+    public DcMotor armMotor = null;
+    public Servo bucketServo = null;
+    //values of this dictionary are subject to change after encoders
+    static HashMap<Integer, Integer> level_map = new HashMap<>();
+    {
+        level_map.put(1, 200);
+        level_map.put(2, 400);
+        level_map.put(3, 700);
+    }
+    public static final double MID_SERVO = 0.5;
     private int currentLevel = 1;
+    private boolean isAuton;
+    private HardwareMap hwMap = null;
 
-    private HardwareMap hwMap           =  null;
+    public DejaVuArm() {
 
-    public DejaVuArm(){}
+    }
 
     //Initialize the arm
-    public void init(HardwareMap hMap ){
-        hwMap = hMap;
-        armMotor = hwMap.get(DcMotor.class , "arm_motor");
-        bucketServo = hwMap.get(Servo.class , "bucket_servo");
-        currentLevel = 1;
-
+    public void init(HardwareMap hMap, boolean isAuton) {
+        this.isAuton = isAuton;
+        this.hwMap = hMap;
+        this.armMotor = hwMap.get(DcMotor.class, "arm_motor");
+        this.bucketServo = hwMap.get(Servo.class, "bucket_servo");
+        this.currentLevel = 1;
+        this.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void moveArmToLevel(int level){
-        if( currentLevel != level){
-            armMotor.setPower(ARM_UP_POWER);
-            //wait for the seconds and set power to 0
-            armMotor.setPower(0);
+    public void moveArmToLevel(int level) {
+        int l = level_map.get(level);
+        armMotor.setTargetPosition(l);
+        while(armMotor.isBusy()) {
+            armMotor.setPower(0.25);
         }
+        armMotor.setPower(0);
     }
 
-    public void bringDownArm(int level){
-        if(currentLevel!=level){
-            armMotor.setPower(ARM_DOWN_POWER);
-            //wait for some seconds. set the target on arm motor
-            //wait for the seconds and set power to 0
-            armMotor.setPower(0);
-        }
+    public void openBucketPos() {
+        bucketServo.setPosition(1);
     }
 
-    //Release the bucket contents and go to original position after 0.5 seconds.
-    public void releaseBucket(){
-        bucketServo.setDirection(Servo.Direction.FORWARD);
-        bucketServo.setPosition(3);
+    public void loadBucketPos() {
+        bucketServo.setPosition(0);
     }
 
-    public void openBucket(){
-        if(bucketServo != null){
-            double current = bucketServo.getPosition();
-            if(current != 1.0){
-                bucketServo.setPosition(3.0);
-            }
-        }
-    }
-
-    public void closeBucket(){
-
+    public void closeBucketPos() {
+        bucketServo.setPosition(-0.8);
     }
 }

@@ -35,96 +35,104 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class DejaVuBot
-{
+import java.util.concurrent.TimeUnit;
+
+public class DejaVuBot {
     /* Public OpMode members. */
-    public DcMotor  leftFrontMotor   = null;
-    public DcMotor  rightFrontMotor  = null;
-    public DcMotor  leftBackMotor    = null;
-    public DcMotor  rightBackMotor  = null;
+    public DcMotor leftFrontMotor = null;
+    public DcMotor rightFrontMotor = null;
+    public DcMotor leftBackMotor = null;
+    public DcMotor rightBackMotor = null;
     public DcMotor duckSpinner = null;
 
     public DejaVuArm arm = null;
 
+    private boolean isAuton;
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    HardwareMap hwMap = null;
+    private ElapsedTime period = new ElapsedTime();
     static final double DUCK_SPIN_POWER = 0.5;
 
     /* Constructor */
-    public DejaVuBot(){
+    public DejaVuBot() {
 
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
+    public void init(HardwareMap ahwMap, boolean isAuton) {
         // Save reference to Hardware map
         hwMap = ahwMap;
+        this.isAuton = isAuton;
         //Initialize the arm
         arm = new DejaVuArm();
-
+        arm.init(hwMap, isAuton);
         // Define and Initialize Motors
-        leftFrontMotor  = hwMap.get(DcMotor.class, "leftFront");
+        leftFrontMotor = hwMap.get(DcMotor.class, "leftFront");
         rightFrontMotor = hwMap.get(DcMotor.class, "rightFront");
-        leftBackMotor    = hwMap.get(DcMotor.class, "leftBack");
+        leftBackMotor = hwMap.get(DcMotor.class, "leftBack");
         rightBackMotor = hwMap.get(DcMotor.class, "rightBack");
         duckSpinner = hwMap.get(DcMotor.class, "duck_spinner");
-        setRobotForDrive();
-        turnOffPowerToMotors();
+        stopRobot();
 
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
+        // Initializing base chassis direction
+        leftFrontMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftBackMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightBackMotor.setDirection(DcMotor.Direction.REVERSE);
+    }
+
+    public void chassisEncoderOff() {
         leftFrontMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public void setRobotForDrive(){
-        leftFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-        leftBackMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightBackMotor.setDirection(DcMotor.Direction.FORWARD);
+    public void chassisEncoderOn() {
+        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    //Power off the robot
-    public void turnOffPowerToMotors(){
-        // Set all motors to zero power
-        leftFrontMotor.setPower(0);
-        rightFrontMotor.setPower(0);
-        leftBackMotor.setPower(0);
-        rightBackMotor.setPower(0);
-    }
-    //Drive forward if backwards = true otherwise forward at given speed without spinning the duck spinner
-    public void driveRobot(double speed , boolean backwards ){
-        double actualSpeed = backwards ? -speed : speed;
 
-        leftFrontMotor.setPower(actualSpeed);
-        rightFrontMotor.setPower(actualSpeed);
-        rightBackMotor.setPower(actualSpeed);
-        leftBackMotor.setPower(actualSpeed);
-        if(duckSpinner != null)
-            duckSpinner.setPower(0);
+    //Power off the robot
+    public void stopRobot() {
+        // Set all chassis motors to zero power
+        leftFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     //Turn the robot at the given speed
-    public void turnRobot(double turnSpeed){
+    public void turnRobot(double turnSpeed) {
         leftFrontMotor.setPower(turnSpeed);
         rightFrontMotor.setPower(-turnSpeed);
-        rightBackMotor.setPower(turnSpeed);
-        leftBackMotor.setPower(-turnSpeed);
+        rightBackMotor.setPower(-turnSpeed);
+        leftBackMotor.setPower(turnSpeed);
     }
 
-    public void spinClockWise(int seconds){
-        if(duckSpinner != null){
+    public void spinClockWise() {
+        if (duckSpinner != null) {
             duckSpinner.setDirection(DcMotor.Direction.FORWARD);
             duckSpinner.setPower(DUCK_SPIN_POWER);
         }
     }
 
-    public void spinAntiClockWise(int seconds){
-        if(duckSpinner != null){
+    public void spinAntiClockWise() {
+        if (duckSpinner != null) {
             duckSpinner.setDirection(DcMotor.Direction.REVERSE);
             duckSpinner.setPower(DUCK_SPIN_POWER);
         }
+    }
+
+    //will be used if we have time
+    public void scanLevel() {
+
+    }
+
+    //will be used based on hardware team strategy
+    public void intake() {
+
     }
 }
