@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="AutoBlue2OpMode", group="Linear OpMode")
@@ -26,10 +26,10 @@ public class AutoBlue2OpMode extends LinearOpMode {
         //making the forward length with 4 rotations
         double forwardLength = 384.5*4;
         //moving forward desired length
-        robot.leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBackMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFrontMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBackMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFrontMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         //encoder 'resetting'
         int NewLeftBackMotorTarget = robot.leftBackMotor.getTargetPosition() + (int)forwardLength;
         int NewLeftFrontMotorTarget = robot.leftFrontMotor.getTargetPosition() + (int)forwardLength;
@@ -46,19 +46,19 @@ public class AutoBlue2OpMode extends LinearOpMode {
         robot.rightBackMotor.setPower(1);
         robot.rightFrontMotor.setPower(1);
         //making it run the go forward
-        robot.leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBackMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        robot.leftFrontMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        robot.rightBackMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        robot.rightFrontMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         /*-------------------NEW ACTION---------------------------*/
 
         double turnLength = 384.5/4;
         //moving forward desired length
-        robot.leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBackMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFrontMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBackMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFrontMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         //encoder 'resetting'
         int NewLeftBackMotorTargetTurn = robot.leftBackMotor.getTargetPosition() - (int)turnLength;
         int NewLeftFrontMotorTargetTurn = robot.leftFrontMotor.getTargetPosition() - (int)turnLength;
@@ -75,18 +75,18 @@ public class AutoBlue2OpMode extends LinearOpMode {
         robot.rightBackMotor.setPower(1);
         robot.rightFrontMotor.setPower(1);
         //making it run the go forward
-        robot.leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBackMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        robot.leftFrontMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        robot.rightBackMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        robot.rightFrontMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         /*----------------MOTOR FOR ARM----------------------------------------------*/
         /*----------------STRAFE----------------------------------------------*/
         double strafeLength = 384.5*4;
         //moving forward desired length
-        robot.leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftBackMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftFrontMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightBackMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightFrontMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         //encoder 'resetting'
         int NewLeftBackMotorTargetStrafe = robot.leftBackMotor.getTargetPosition() + (int)strafeLength;
         int NewLeftFrontMotorTargetStrafe = robot.leftFrontMotor.getTargetPosition() - (int)strafeLength;
@@ -103,9 +103,9 @@ public class AutoBlue2OpMode extends LinearOpMode {
         robot.rightBackMotor.setPower(1);
         robot.rightFrontMotor.setPower(1);
         //making it run the go forward
-        robot.leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftBackMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        robot.leftFrontMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        robot.rightBackMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        robot.rightFrontMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 }
