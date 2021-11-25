@@ -1,13 +1,15 @@
 package org.firstinspires.ftc.teamcode;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 
 public class DejaVuArm {
     /* Public OpMode members. */
-    public DcMotorEx armMotor = null;
+    public DcMotor armMotor = null;
     public Servo bucketServo = null;
     //values of this dictionary are subject to change after encoders
     static HashMap<Integer, Integer> level_map = new HashMap<>();
@@ -29,19 +31,19 @@ public class DejaVuArm {
     public void init(HardwareMap hMap, boolean isAuton) {
         this.isAuton = isAuton;
         this.hwMap = hMap;
-        this.armMotor = hwMap.get(DcMotorEx.class, "arm_motor");
+        this.armMotor = hwMap.get(DcMotor.class, "arm_motor");
         this.bucketServo = hwMap.get(Servo.class, "bucket_servo");
         this.currentLevel = 1;
-        this.armMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        this.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void moveArmToLevel(int level) {
         int l = level_map.get(level);
         armMotor.setTargetPosition(l);
         while(armMotor.isBusy()) {
-            armMotor.getVelocity();
+            armMotor.setPower(0.25);
         }
-        armMotor.setVelocity(0);
+        armMotor.setPower(0);
     }
 
     public void openBucketPos() {
