@@ -21,11 +21,11 @@ public class GamePadOpMode extends LinearOpMode {
         telemetry.addData("Status", "Ready for gamepad run");
         telemetry.update();
 
-        robot.leftFront.setDirection(DcMotor.Direction.FORWARD);
-        robot.rightFront.setDirection(DcMotor.Direction.REVERSE);
+        robot.leftFrontMotor.setDirection(DcMotor.Direction.FORWARD);
+        robot.rightFrontMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        robot.leftBack.setDirection(DcMotor.Direction.FORWARD);
-        robot.rightBack.setDirection(DcMotor.Direction.REVERSE);
+        robot.leftBackMotor.setDirection(DcMotor.Direction.FORWARD);
+        robot.rightBackMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -42,25 +42,25 @@ public class GamePadOpMode extends LinearOpMode {
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
             if(gamepad1.left_bumper == true){
-                robot.leftFront.setPower(-0.5);
-                robot.rightFront.setPower(0.5);
-                robot.rightBack.setPower(0.5);
-                robot.leftBack.setPower(-0.5);
+                robot.leftFrontMotor.setPower(-0.5);
+                robot.rightFrontMotor.setPower(0.5);
+                robot.rightBackMotor.setPower(0.5);
+                robot.leftBackMotor.setPower(-0.5);
             } else if(gamepad1.right_bumper == true){
-                robot.leftFront.setPower(0.5);
-                robot.rightFront.setPower(-0.5);
-                robot.rightBack.setPower(-0.5);
-                robot.leftBack.setPower(0.5);
+                robot.leftFrontMotor.setPower(0.5);
+                robot.rightFrontMotor.setPower(-0.5);
+                robot.rightBackMotor.setPower(-0.5);
+                robot.leftBackMotor.setPower(0.5);
             } else {
-                robot.leftFront.setPower(leftPower);
-                robot.rightFront.setPower(rightPower);
-                robot.rightBack.setPower(leftPower);
-                robot.leftBack.setPower(rightPower);
+                robot.leftFrontMotor.setPower(leftPower);
+                robot.rightFrontMotor.setPower(rightPower);
+                robot.rightBackMotor.setPower(leftPower);
+                robot.leftBackMotor.setPower(rightPower);
             };
 
             double DuckPower = gamepad2.right_stick_x;
             DuckPower = Range.clip(DuckPower, -1, 1);
-            robot.Duck.setPower(DuckPower);
+            robot.duckSpinner.setPower(DuckPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Completed");
@@ -70,10 +70,10 @@ public class GamePadOpMode extends LinearOpMode {
         }
 
         // Step 4:  Stop and close the claw.
-        robot.leftFront.setPower(0);
-        robot.rightFront.setPower(0);
-        robot.rightBack.setPower(0);
-        robot.leftBack.setPower(0);
+        robot.leftFrontMotor.setPower(0);
+        robot.rightFrontMotor.setPower(0);
+        robot.rightBackMotor.setPower(0);
+        robot.leftBackMotor.setPower(0);
 
         telemetry.addData("GamePadOpMode", "Complete");
         telemetry.update();
