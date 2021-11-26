@@ -18,78 +18,24 @@ public class AutoBlue1OpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Initializing robot..");
-        telemetry.update();
+        robot.init(hardwareMap, true);
+        robot.chassisEncoderOn();
+        int targetInput = (int) (37 * DejaVuBot.COUNT_PER_INCH);
+        robot.leftFrontMotor.setTargetPosition(targetInput);
+        robot.rightFrontMotor.setTargetPosition(targetInput);
+        robot.leftBackMotor.setTargetPosition(targetInput);
+        robot.rightBackMotor.setTargetPosition(targetInput);
 
-        robot.init(hardwareMap,true);
-
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("AutoBlue1OpMode", "Ready for auto blue 1 run");
+        telemetry.addData("Status", "Ready for gamepad run");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        //reset elapsed time for autonomous code
         runtime.reset();
 
-        //encoder 'resetting'
-        robot.setModeForAllMotors(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        //moving forward desired length , setting the forward length for 1/4 rotations
-        int forwardLength = 1 ;//(int)MOTOR_TICK_COUNT/100;
-        robot.addForwardPositionToAllMotors(forwardLength);
-
-        //setting speed
-        robot.setPowerToAllMotors(0.25);
-
-        //making it run the go forward
-        robot.setModeForAllMotors(DcMotor.RunMode.RUN_TO_POSITION);
-
-        while(robot.leftFrontMotor.isBusy()){}
-        while(robot.leftBackMotor.isBusy()){}
-        while(robot.rightFrontMotor.isBusy()){}
-        while(robot.rightBackMotor.isBusy()){}
-
-        telemetry.addData("AutoBlue1OpMode", " Reached first destination ");
-        telemetry.update();
-
-         /*------------------- Turn the robot to the hub---------*/
-
-        int turnLength = 2; //(int)MOTOR_TICK_COUNT/100;
-        //moving forward desired length
-        robot.setModeForAllMotors(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //encoder 'resetting'
-        //setting target location
-        robot.leftBackMotor.setTargetPosition(robot.leftBackMotor.getTargetPosition() - turnLength);
-        robot.leftFrontMotor.setTargetPosition(robot.leftFrontMotor.getTargetPosition() - turnLength);
-        robot.rightBackMotor.setTargetPosition(robot.rightBackMotor.getTargetPosition() + turnLength);
-        robot.rightFrontMotor.setTargetPosition(robot.rightFrontMotor.getTargetPosition() + turnLength);
-
-        //setting speed
-        robot.setPowerToAllMotors(0.25);
-
-        //making it run the go forward
-        robot.setModeForAllMotors(DcMotor.RunMode.RUN_TO_POSITION);
-        while(robot.leftFrontMotor.isBusy()){}
-        while(robot.leftBackMotor.isBusy()){}
-        while(robot.rightFrontMotor.isBusy()){}
-        while(robot.rightBackMotor.isBusy()){}
-
-        telemetry.addData("AutoBlue2OpMode", " Turned to deliver the freight ");
-        telemetry.update();
-
-        /*----------------Raise the arm and drop freight ----------------------------*/
-
-        /*----------------STRAFE to duck spinner and align the wheel ----------------*/
-
-        /*----------------Spin the duck spinner -------------------------------------*/
-        if(robot.duckSpinner != null){
-            //Spin the duck spinner anti clockwise to drop one duck
-            robot.spinAntiClockWise();
-        }
-        telemetry.addData("AutoBlue2OpMode", " Reached warehouse");
+        telemetry.addData("AutonOpMode", "Complete");
         telemetry.update();
     }
 }

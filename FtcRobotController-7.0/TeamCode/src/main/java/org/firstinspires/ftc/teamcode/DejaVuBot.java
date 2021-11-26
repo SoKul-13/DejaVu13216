@@ -29,8 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -39,11 +38,11 @@ import java.util.concurrent.TimeUnit;
 
 public class DejaVuBot {
     /* Public OpMode members. */
-    public DcMotor leftFrontMotor = null;
-    public DcMotor rightFrontMotor = null;
-    public DcMotor leftBackMotor = null;
-    public DcMotor rightBackMotor = null;
-    public DcMotor duckSpinner = null;
+    public DcMotorEx leftFrontMotor = null;
+    public DcMotorEx rightFrontMotor = null;
+    public DcMotorEx leftBackMotor = null;
+    public DcMotorEx rightBackMotor = null;
+    public DcMotorEx duckSpinner = null;
 
     public DejaVuArm arm = null;
 
@@ -52,6 +51,18 @@ public class DejaVuBot {
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
     static final double DUCK_SPIN_POWER = 0.5;
+    //motor constants for auton calculations
+    static final double WHEEL_CIRCUMFERENCE_MM = 96 * Math.PI;
+    static final double COUNTS_PER_MOTOR_REV = 28.0;
+    static final double DRIVE_GEAR_REDUCTION = 16.25;
+
+    static final double COUNTS_PER_WHEEL_REV = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
+    static final double COUNT_PER_MM = COUNTS_PER_WHEEL_REV/WHEEL_CIRCUMFERENCE_MM;
+    static final double COUNT_PER_FT = COUNT_PER_MM * 304.8;
+    public static final double COUNT_PER_INCH = COUNT_PER_FT/12;
+
+    //max rpm for our motors are 338, here we're using 175 rpm
+    double TPS = (double) ((175/60) * COUNTS_PER_WHEEL_REV);
 
     /* Constructor */
     public DejaVuBot() {
@@ -65,48 +76,48 @@ public class DejaVuBot {
         this.isAuton = isAuton;
 
         // Define and Initialize Motors
-        leftFrontMotor = hwMap.get(DcMotor.class, "leftFront");
-        rightFrontMotor = hwMap.get(DcMotor.class, "rightFront");
-        leftBackMotor = hwMap.get(DcMotor.class, "leftBack");
-        rightBackMotor = hwMap.get(DcMotor.class, "rightBack");
+        leftFrontMotor = hwMap.get(DcMotorEx.class, "leftFront");
+        rightFrontMotor = hwMap.get(DcMotorEx.class, "rightFront");
+        leftBackMotor = hwMap.get(DcMotorEx.class, "leftBack");
+        rightBackMotor = hwMap.get(DcMotorEx.class, "rightBack");
 
         /*Initialize the arm and duck spinner
-        duckSpinner = hwMap.get(DcMotor.class, "duckSpinner");
+        duckSpinner = hwMap.get(DcMotorEx.class, "duckSpinner");
         arm = new DejaVuArm();
         arm.init(hwMap, isAuton);*/
         stopRobot();
 
         // Initializing base chassis direction
-        leftFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        leftBackMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightBackMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        rightFrontMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        leftBackMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        rightBackMotor.setDirection(DcMotorEx.Direction.REVERSE);
     }
 
     public void chassisEncoderOff() {
-        leftFrontMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        leftBackMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        rightBackMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void chassisEncoderOn() {
-        leftFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFrontMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftFrontMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rightFrontMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        leftBackMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rightBackMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
     //Power off the robot
     public void stopRobot() {
         // Set all chassis motors to zero power
-        leftFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void setModeForAllMotors(DcMotor.RunMode runMode){
+    public void setModeForAllMotors(DcMotorEx.RunMode runMode){
         leftBackMotor.setMode(runMode);
         leftFrontMotor.setMode(runMode);
         rightBackMotor.setMode(runMode);
@@ -129,6 +140,13 @@ public class DejaVuBot {
         leftBackMotor.setPower(speed);
     }
 
+    public void setVelocityToAllMotors(double velocity) {
+        leftFrontMotor.setVelocity(velocity);
+        rightFrontMotor.setVelocity(velocity);
+        rightBackMotor.setVelocity(velocity);
+        leftBackMotor.setVelocity(velocity);
+    }
+
     //Turn the robot at the given speed
     public void turnRobot(double turnSpeed) {
         leftFrontMotor.setPower(turnSpeed);
@@ -139,14 +157,14 @@ public class DejaVuBot {
 
     public void spinClockWise() {
         if (duckSpinner != null) {
-            duckSpinner.setDirection(DcMotor.Direction.FORWARD);
+            duckSpinner.setDirection(DcMotorEx.Direction.FORWARD);
             duckSpinner.setPower(DUCK_SPIN_POWER);
         }
     }
 
     public void spinAntiClockWise() {
         if (duckSpinner != null) {
-            duckSpinner.setDirection(DcMotor.Direction.REVERSE);
+            duckSpinner.setDirection(DcMotorEx.Direction.REVERSE);
             duckSpinner.setPower(DUCK_SPIN_POWER);
         }
     }

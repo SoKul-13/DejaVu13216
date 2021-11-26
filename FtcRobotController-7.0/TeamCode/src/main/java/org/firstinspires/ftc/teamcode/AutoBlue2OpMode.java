@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="AutoBlue2OpMode", group="Linear OpMode")
@@ -29,7 +29,7 @@ public class AutoBlue2OpMode extends LinearOpMode {
         runtime.reset();
 
         //encoder 'resetting'
-        robot.setModeForAllMotors(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.setModeForAllMotors(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         //moving forward desired length , setting the forward length for 1/4 rotations
         int forwardLength = 1 ;//(int)MOTOR_TICK_COUNT/100;
@@ -39,7 +39,7 @@ public class AutoBlue2OpMode extends LinearOpMode {
         robot.setPowerToAllMotors(0.25);
 
         //making it run the go forward
-        robot.setModeForAllMotors(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.setModeForAllMotors(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         while(robot.leftFrontMotor.isBusy()){}
         while(robot.leftBackMotor.isBusy()){}
@@ -54,7 +54,7 @@ public class AutoBlue2OpMode extends LinearOpMode {
 
         int turnLength = 2; //(int)MOTOR_TICK_COUNT/100;
         //moving forward desired length
-        robot.setModeForAllMotors(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.setModeForAllMotors(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         //encoder 'resetting'
         //setting target location
@@ -67,7 +67,7 @@ public class AutoBlue2OpMode extends LinearOpMode {
         robot.setPowerToAllMotors(0.25);
 
         //making it run the go forward
-        robot.setModeForAllMotors(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.setModeForAllMotors(DcMotorEx.RunMode.RUN_TO_POSITION);
         while(robot.leftFrontMotor.isBusy()){}
         while(robot.leftBackMotor.isBusy()){}
         while(robot.rightFrontMotor.isBusy()){}
@@ -80,7 +80,7 @@ public class AutoBlue2OpMode extends LinearOpMode {
         /*----------------STRAFE----------------------------------------------*/
 
         //moving forward desired length
-        robot.setModeForAllMotors(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.setModeForAllMotors(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         //setting target location
         int strafeLength = 4; //(int)MOTOR_TICK_COUNT/100;
@@ -92,7 +92,7 @@ public class AutoBlue2OpMode extends LinearOpMode {
         robot.setPowerToAllMotors(0.25);
 
         //making it run the go forward
-        robot.setModeForAllMotors(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.setModeForAllMotors(DcMotorEx.RunMode.RUN_TO_POSITION);
         while(robot.leftFrontMotor.isBusy()){}
         while(robot.leftBackMotor.isBusy()){}
         while(robot.rightFrontMotor.isBusy()){}
