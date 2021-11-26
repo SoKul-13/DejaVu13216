@@ -62,7 +62,7 @@ public class DejaVuBot {
     public static final double COUNT_PER_INCH = COUNT_PER_FT/12;
 
     //max rpm for our motors are 338, here we're using 175 rpm
-    double TPS = (double) ((175/60) * COUNTS_PER_WHEEL_REV);
+    public static double TPS = (double) ((175/60) * COUNTS_PER_WHEEL_REV);
 
     /* Constructor */
     public DejaVuBot() {
