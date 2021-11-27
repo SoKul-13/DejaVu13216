@@ -33,19 +33,19 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         waitForStart();
 
         driveForwardByInches(41, robot);
-        telemetry.addData("AutonOpMode", "Ran forward ");
+        telemetry.addData("AutoBlue1OpMode", "Ran forward ");
         telemetry.update();
 
         robot.gyroInit();
         robot.chassisEncoderOff();
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Blue1AutoOpMode", "Ready to turn ");
+        telemetry.addData("AutoBlue1OpMode", "Ready to turn ");
         telemetry.update();
 
         turnPID(-90);
         robot.chassisEncoderOn();
         driveForwardByInches(-8, robot);
-        //arm code here 
+        //arm code here
         sleep(5000);
         driveForwardByInches(42, robot);
         robot.chassisEncoderOff();

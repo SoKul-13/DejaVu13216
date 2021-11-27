@@ -34,11 +34,6 @@ public class BaseAutoOpMode extends LinearOpMode {
             robot.leftBackMotor.setPower(-motorPower);
             robot.rightFrontMotor.setPower(motorPower);
             robot.rightBackMotor.setPower(motorPower);
-            telemetry.addData("Current Angle", getAbsoluteAngle());
-            telemetry.addData("Target Angle", targetAngle);
-            telemetry.addData("Slope", pid.getLastSlope());
-            telemetry.addData("Power", motorPower);
-            telemetry.update();
         }
         robot.setPowerToAllMotors(0);
     }
@@ -47,15 +42,11 @@ public class BaseAutoOpMode extends LinearOpMode {
         int targetInput = (int) ((48/41)*(distance * DejaVuBot.COUNT_PER_INCH));
         telemetry.addData("Target Position Set to:", targetInput);
         telemetry.update();
-        telemetry.addData("BeforeMotorMode:", bot.leftBackMotor.getMode());
-        telemetry.update();
         bot.leftFrontMotor.setTargetPosition(targetInput);
         bot.rightFrontMotor.setTargetPosition(targetInput);
         bot.leftBackMotor.setTargetPosition(targetInput);
         bot.rightBackMotor.setTargetPosition(targetInput);
         bot.chassisEncoderOn();
-        telemetry.addData("AfterMotorMode:", bot.leftBackMotor.getMode());
-        telemetry.update();
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready for run");
         telemetry.update();
