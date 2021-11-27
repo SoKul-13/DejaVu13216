@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -38,11 +40,13 @@ import java.util.concurrent.TimeUnit;
 
 public class DejaVuBot {
     /* Public OpMode members. */
-    public DcMotorEx leftFrontMotor = null;
-    public DcMotorEx rightFrontMotor = null;
-    public DcMotorEx leftBackMotor = null;
-    public DcMotorEx rightBackMotor = null;
-    public DcMotorEx duckSpinner = null;
+    public DcMotorEx leftFrontMotor;
+    public DcMotorEx rightFrontMotor;
+    public DcMotorEx leftBackMotor;
+    public DcMotorEx rightBackMotor;
+    public DcMotorEx duckSpinner;
+    public BNO055IMU imu;
+
 
     public DejaVuArm arm = null;
 
@@ -92,6 +96,19 @@ public class DejaVuBot {
         rightFrontMotor.setDirection(DcMotorEx.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotorEx.Direction.FORWARD);
         rightBackMotor.setDirection(DcMotorEx.Direction.REVERSE);
+    }
+    public void gyroInit() {
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        //calculates velocity and position of robot
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
     }
 
     public void chassisEncoderOff() {
