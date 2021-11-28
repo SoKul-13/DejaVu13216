@@ -12,11 +12,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
     Robot will spin the duck table 1 time -10
     Robot will deliver the freight at the top level - 6 points
     Park in warehouse- 10 points
- */
+*/
 /*  Action Items In Order Of Priority
 
+    Advanced Paths -> RoadRunner
     Strafe -> Gyro sensor
-    Vision -> OpenCV*/
+    Vision -> OpenCV
+*/
 @Autonomous(name="AutoBlue1OpMode", group="AutoOpModes")
 public class AutoBlue1OpMode extends BaseAutoOpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -24,7 +26,6 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap, true);
-        robot.stopRobot();
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready for run");
         telemetry.update();
@@ -32,7 +33,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        driveForwardByInches(41, robot);
+        driveForwardByInches(44, robot);
         telemetry.addData("AutoBlue1OpMode", "Ran forward ");
         telemetry.update();
 
@@ -47,13 +48,14 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         driveForwardByInches(-8, robot);
         //arm code here
         sleep(5000);
-        driveForwardByInches(42, robot);
+        driveForwardByInches(36, robot);
         robot.chassisEncoderOff();
         turnPID(90);
         robot.chassisEncoderOn();
-        driveForwardByInches(-35, robot);
-        //spin carousel
+        driveForwardByInches(-32, robot);
+        robot.spinAntiClockWise();
         sleep(5000);
+        robot.stopSpinner();
         //Turn and park in warehouse
         robot.chassisEncoderOff();
         turnPID(-90);

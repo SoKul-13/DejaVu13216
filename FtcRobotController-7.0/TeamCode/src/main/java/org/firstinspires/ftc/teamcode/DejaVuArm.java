@@ -14,6 +14,7 @@ public class DejaVuArm {
     //values of this dictionary are subject to change after encoders
     static HashMap<Integer, Integer> level_map = new HashMap<>();
     {
+        level_map.put(0, 50);
         level_map.put(1, 200);
         level_map.put(2, 400);
         level_map.put(3, 700);
@@ -31,8 +32,8 @@ public class DejaVuArm {
     public void init(HardwareMap hMap, boolean isAuton) {
         this.isAuton = isAuton;
         this.hwMap = hMap;
-        this.armMotor = hwMap.get(DcMotorEx.class, "arm_motor");
-        this.bucketServo = hwMap.get(Servo.class, "bucket_servo");
+        this.armMotor = hwMap.get(DcMotorEx.class, "armMotor");
+        this.bucketServo = hwMap.get(Servo.class, "bucketServo");
         this.currentLevel = 1;
         this.armMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }

@@ -13,7 +13,6 @@ public class AutoBlue2OpMode extends BaseAutoOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap, true);
-        robot.stopRobot();
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready for run");
         telemetry.update();
@@ -21,7 +20,7 @@ public class AutoBlue2OpMode extends BaseAutoOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        driveForwardByInches(41, robot);
+        driveForwardByInches(44, robot);
         telemetry.addData("AutoBlue2OpMode", "Ran forward ");
         telemetry.update();
 
