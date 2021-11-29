@@ -49,14 +49,13 @@ public class DejaVuBot {
     public DcMotorEx intakeMotor;
     public BNO055IMU imu;
 
-
     public DejaVuArm arm = null;
 
     private boolean isAuton;
     /* local OpMode members. */
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
-    static final double DUCK_SPIN_POWER = 0.5;
+    static final double DUCK_SPIN_POWER = 0.75;
     //motor constants for auton calculations
     static final double WHEEL_CIRCUMFERENCE_MM = 96 * Math.PI;
     static final double COUNTS_PER_MOTOR_REV = 28.0;
@@ -70,7 +69,7 @@ public class DejaVuBot {
     //max rpm for our motors are 338, here we're using 175 rpm
     public static double TPS = (double) ((175/60) * COUNTS_PER_WHEEL_REV);
 
-    public static double INTAKE_MOTOR_SPEED = 0.75;
+    public static double INTAKE_MOTOR_SPEED = 1.0;
 
     /* Constructor */
     public DejaVuBot() {
@@ -88,13 +87,12 @@ public class DejaVuBot {
         rightFrontMotor = hwMap.get(DcMotorEx.class, "rightFront");
         leftBackMotor = hwMap.get(DcMotorEx.class, "leftBack");
         rightBackMotor = hwMap.get(DcMotorEx.class, "rightBack");
-        //intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
-        //intakeMotor.setPower(0.0);
+        intakeMotor = hwMap.get(DcMotorEx.class, "intakeMotor");
 
-        /*Initialize the arm and duck spinner
+        //Initialize the arm and duck spinner
         duckSpinner = hwMap.get(DcMotorEx.class, "duckSpinner");
-        arm = new DejaVuArm();
-        arm.init(hwMap, isAuton);*/
+        //arm = new DejaVuArm();
+        //arm.init(hwMap, isAuton);
         stopRobot();
 
 
@@ -103,7 +101,8 @@ public class DejaVuBot {
         rightFrontMotor.setDirection(DcMotorEx.Direction.REVERSE);
         leftBackMotor.setDirection(DcMotorEx.Direction.FORWARD);
         rightBackMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        //intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeMotor.setPower(0.0);
     }
     public void gyroInit() {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -207,7 +206,7 @@ public class DejaVuBot {
     //will be used based on hardware team strategy
     public void intake() {
         if (intakeMotor != null) {
-            intakeMotor.setPower(INTAKE_MOTOR_SPEED);
+            intakeMotor.setPower(-INTAKE_MOTOR_SPEED);
         }
     }
     public void stopIntake() {

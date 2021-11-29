@@ -30,9 +30,49 @@ public class AutoBlue2OpMode extends BaseAutoOpMode {
         telemetry.addData("AutoBlue2OpMode", "Ready to turn ");
         telemetry.update();
 
+        turnPID(-90);
+
+        robot.chassisEncoderOn();
+        driveForwardByInches(8,robot);
+        //arm code here
+        sleep(1000);
+        robot.gyroInit();
+        robot.chassisEncoderOff();
+        turnPID(-90);
+        robot.chassisEncoderOn();
+        driveForwardByInches(40, robot);
+        robot.gyroInit();
+        robot.chassisEncoderOff();
+        turnPID(-90);
+        robot.chassisEncoderOn();
+        driveForwardByInches(49, robot);
+        //intake code here
+        sleep(1000);
+        /*----------------------------------loop start if incorporated-----------------------------------------*/
+        robot.chassisEncoderOn();
+        driveForwardByInches(-49, robot);
+        robot.gyroInit();
+        robot.chassisEncoderOff();
+        turnPID(90);
+        robot.chassisEncoderOn();
+        driveForwardByInches(-40, robot);
+        robot.gyroInit();
+        robot.chassisEncoderOff();
         turnPID(90);
         //arm code here
-        sleep(5000);
-
+        sleep(1000);
+        robot.gyroInit();
+        robot.chassisEncoderOff();
+        turnPID(-90);
+        robot.chassisEncoderOn();
+        driveForwardByInches(40, robot);
+        robot.gyroInit();
+        robot.chassisEncoderOff();
+        turnPID(-90);
+        robot.chassisEncoderOn();
+        driveForwardByInches(49, robot);
+        //intake code here
+        sleep(1000);
+        /*----------------------------------loop end if incorporated-----------------------------------------*/
     }
 }

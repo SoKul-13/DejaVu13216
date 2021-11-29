@@ -16,7 +16,7 @@ public class GamePadOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap,false);
-
+        robot.chassisEncoderOff();
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready for gamepad run");
         telemetry.update();
@@ -26,17 +26,17 @@ public class GamePadOpMode extends LinearOpMode {
 
         runtime.reset();
         double leftPower, rightPower;
-        double drive = -gamepad1.left_stick_y;
+        double drive = gamepad1.left_stick_y;
         double turn  =  gamepad1.right_stick_x;
 
         while(opModeIsActive()){
             telemetry.addData("drive set to:", ""+drive);
             telemetry.addData("turn set to:", ""+turn);
+            telemetry.update();
             drive = -gamepad1.left_stick_y;
             turn  =  gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
             if(gamepad1.left_bumper) {
                 robot.turnRobot(-0.5);
             } else if(gamepad1.right_bumper){
@@ -47,16 +47,27 @@ public class GamePadOpMode extends LinearOpMode {
                 robot.rightBackMotor.setPower(leftPower);
                 robot.leftBackMotor.setPower(rightPower);
             }
-            while(gamepad2.left_bumper) {
+            int count = 0;
+            robot.stopSpinner();
+            if (gamepad2.left_bumper) {
                 if (isBlue) {
-                    robot.spinAntiClockWise();
-                } else {
                     robot.spinClockWise();
+                } else {
+                    robot.spinAntiClockWise();
                 }
+                sleep(3000);
+                robot.duckSpinner.setPower(0);
             }
-            while (gamepad2.right_bumper) {
+            /*
+            if (gamepad2.right_bumper) {
                 robot.intake();
+                sleep(2000);
+                robot.intakeMotor.setPower(0);
+
+
             }
+            */
+            /*
             if(gamepad2.y) {
                 robot.arm.moveArmToLevel(3);
             }
@@ -66,6 +77,7 @@ public class GamePadOpMode extends LinearOpMode {
             if (gamepad2.a) {
                 robot.arm.moveArmToLevel(1);
             }
+            */
             //need to figure out buttons for bucketServo (3), and initial position of arm
 
             // Show the elapsed game time and wheel power.

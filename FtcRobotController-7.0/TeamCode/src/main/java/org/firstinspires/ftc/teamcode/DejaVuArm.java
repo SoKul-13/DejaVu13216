@@ -13,12 +13,14 @@ public class DejaVuArm {
     public Servo bucketServo = null;
     //values of this dictionary are subject to change after encoders
     static HashMap<Integer, Integer> level_map = new HashMap<>();
+
     {
         level_map.put(0, 50);
         level_map.put(1, 200);
         level_map.put(2, 400);
         level_map.put(3, 700);
     }
+
     public static final double MID_SERVO = 0.5;
     private int currentLevel = 1;
     private boolean isAuton;
@@ -32,12 +34,13 @@ public class DejaVuArm {
     public void init(HardwareMap hMap, boolean isAuton) {
         this.isAuton = isAuton;
         this.hwMap = hMap;
-        this.armMotor = hwMap.get(DcMotorEx.class, "armMotor");
-        this.bucketServo = hwMap.get(Servo.class, "bucketServo");
+        //this.armMotor = hwMap.get(DcMotorEx.class, "armMotor");
+        //this.bucketServo = hwMap.get(Servo.class, "bucketServo");
         this.currentLevel = 1;
-        this.armMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        //this.armMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
-
+}
+/*
     public void moveArmToLevel(int level) {
         int l = level_map.get(level);
         armMotor.setTargetPosition(l);
@@ -46,6 +49,7 @@ public class DejaVuArm {
         }
         armMotor.setPower(0);
     }
+
 
     public void openBucketPos() {
         bucketServo.setPosition(1);
@@ -59,3 +63,5 @@ public class DejaVuArm {
         bucketServo.setPosition(-0.8);
     }
 }
+
+ */

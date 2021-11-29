@@ -45,21 +45,20 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
 
         turnPID(-90);
         robot.chassisEncoderOn();
-        driveForwardByInches(-8, robot);
         //arm code here
         sleep(5000);
-        driveForwardByInches(36, robot);
+        driveForwardByInches(34, robot);
         robot.chassisEncoderOff();
         turnPID(90);
         robot.chassisEncoderOn();
-        driveForwardByInches(-32, robot);
-        robot.spinAntiClockWise();
-        sleep(5000);
-        robot.stopSpinner();
+        driveForwardByInches(-18, robot);
+        robot.spinClockWise();
+        sleep(3000);
+        robot.duckSpinner.setPower(0);
         //Turn and park in warehouse
         robot.chassisEncoderOff();
         turnPID(-90);
         robot.chassisEncoderOn();
-        driveForwardByInches(-138, robot);
+        driveForwardByInches(-144, robot);
     }
 }
