@@ -7,8 +7,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.*;
 /**
  * This class represents the autonomous run from Red1 position
  */
-@Autonomous(name="AutoRed1OpMode", group="AutoOpModes")
-public class AutoRed1OpMode extends BaseAutoOpMode {
+@Autonomous(name="AutoRed2OpMode", group="AutoOpModes")
+public class AutoRed2OpMode extends BaseAutoOpMode {
     private String name = "AutoRed2OpMode";
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -28,7 +28,7 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         telemetry.update();
 
         driveForwardByInches(44, robot, DejaVuBot.TPS);
-        turnToPID(-90,robot);
+        turnToPID(90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
         driveForwardByInches(-6, robot, DejaVuBot.TPS);
@@ -40,28 +40,57 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         telemetry.addData(name, " Dropped the freight ");
         telemetry.update();
 
-        //Move the robot to spin the duck
-        driveForwardByInches(6, robot, DejaVuBot.TPS);
-        turnToPID(90,robot);
+        //Move the robot to warehouse for second point
+        driveForwardByInches(8, robot, DejaVuBot.TPS);
+        strafeDirection(robot, false, 900);
+        /*
+        turnToPID(-90,robot);
         driveForwardByInches(-42, robot, DejaVuBot.TPS);
         telemetry.addData(name, " Driving to wall ");
         telemetry.update();
 
         turnToPID(90, robot);
-        driveForwardByInches(-26, robot, DejaVuBot.TPS);
-        driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
-        spinForOneDuck(robot, false);
-        telemetry.addData(name, " Duck spinned ");
+*/
+        robot.arm.closeBucketPos();
+        driveForwardByInches(48, robot, DejaVuBot.TPS);
+        robot.intake();
+        driveForwardByInches(4, robot, DejaVuBot.TPS);
+        sleep(1500);
+        driveForwardByInches(-50, robot, DejaVuBot.TPS);
+        strafeDirection(robot, true, 900);
+
+        //driveForwardByInches(44, robot, DejaVuBot.TPS);
+        //turnToPID(90,robot);
+        telemetry.addData(name, "Turned to hub  ");
+        telemetry.update();
+        driveForwardByInches(-6, robot, DejaVuBot.TPS);
+
+        //Drop the piece here and reset the arm to initial position
+        //robot.arm.moveArmToLevel(2);
+        //robot.arm.openBucketPos();
+        //robot.arm.closeBucketPos();
+        sleep(3000);
+        telemetry.addData(name, " Dropped the freight ");
         telemetry.update();
 
-        //Turn and park in warehouse
-        //if need to strafe out of other robot direction use below
-        //strafeDirection(robot, true, 200);
+        driveForwardByInches(8, robot, DejaVuBot.TPS);
+        strafeDirection(robot, false, 900);
+        //turnToPID(-90,robot);
+        //driveForwardByInches(-42, robot, DejaVuBot.TPS);
+        telemetry.addData(name, " Driving to wall ");
+        telemetry.update();
 
-        driveForwardByInches(122, robot, DejaVuBot.TPS * 2);
+        //turnToPID(90, robot);
+        robot.arm.closeBucketPos();
+        driveForwardByInches(52, robot, DejaVuBot.TPS);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");
         telemetry.update();
+
+
+        //*/
+
     }
+
 }

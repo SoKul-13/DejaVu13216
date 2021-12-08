@@ -37,7 +37,7 @@ public class BaseAutoOpMode extends LinearOpMode {
         if(targetAngle < 0){
             turnToPIDForNegativeAngle(targetAngle);
         }else {
-            PIDUtils pid = new PIDUtils(targetAngle, 0.001, 0, 0.003);
+            PIDUtils pid = new PIDUtils(targetAngle, 0.0015, 0, 0.003);
             telemetry.setMsTransmissionInterval(50);
             // Checking lastSlope to make sure that it's not "oscillating" when it quits
             telemetry.addData(" turnToPID sTART abs angle = ", getAbsoluteAngle());
@@ -100,7 +100,7 @@ public class BaseAutoOpMode extends LinearOpMode {
     }
 
     private void turnToPIDForNegativeAngle(double targetAngle) {
-        PIDUtils pid = new PIDUtils(targetAngle, 0.001, 0, 0.003);
+        PIDUtils pid = new PIDUtils(targetAngle, 0.0015, 0, 0.003);
         telemetry.setMsTransmissionInterval(50);
         // Checking lastSlope to make sure that it's not "oscillating" when it quits
         telemetry.addData(" turnToPIDForNegativeAngle s abs angle = ", getAbsoluteAngle());
@@ -148,6 +148,51 @@ public class BaseAutoOpMode extends LinearOpMode {
         }
         //Stop the motor
         bot.duckSpinner.setPower(0);
+    }
+    public void strafeDirection(DejaVuBot bot, boolean left, int milliseconds) {
+        bot.setModeForAllMotors(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        if(left) {
+            bot.leftFrontMotor.setPower(-1.0);
+            bot.leftBackMotor.setPower(1.0);
+            bot.rightFrontMotor.setPower(1.0);
+            bot.rightBackMotor.setPower(-1.0);
+        } else {
+            bot.leftFrontMotor.setPower(1.0);
+            bot.leftBackMotor.setPower(-1.0);
+            bot.rightFrontMotor.setPower(-1.0);
+            bot.rightBackMotor.setPower(1.0);
+        }
+        sleep(milliseconds);
+        bot.setModeForAllMotors(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.setModeForAllMotors(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    public void strafe45Direction(DejaVuBot bot, boolean left, boolean directionForwards, int milliseconds) {
+        bot.setModeForAllMotors(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        int direction = 0;
+        if(left) {
+            if (directionForwards) {
+                direction = 1;
+            } else {
+                direction = -1;
+            }
+            bot.leftFrontMotor.setPower(direction * 1.0);
+            bot.leftBackMotor.setPower(0);
+            bot.rightFrontMotor.setPower(0);
+            bot.rightBackMotor.setPower(direction * 1.0);
+        } else {
+            if (directionForwards) {
+                direction = 1;
+            } else {
+                direction = -1;
+            }
+            bot.leftFrontMotor.setPower(0);
+            bot.leftBackMotor.setPower(direction * 1.0);
+            bot.rightFrontMotor.setPower(direction * 1.0);
+            bot.rightBackMotor.setPower(0);
+        }
+        sleep(milliseconds);
+        bot.setModeForAllMotors(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.setModeForAllMotors(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }
 
