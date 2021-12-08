@@ -56,7 +56,7 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
 
         //Turn and park in warehouse
 
-        driveForwardByInches(144, robot, DejaVuBot.TPS * 2);
+        driveForwardByInches(122, robot, DejaVuBot.TPS * 2);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");
