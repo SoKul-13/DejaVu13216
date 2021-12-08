@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 public class GamePadOpMode extends LinearOpMode {
     DejaVuBot robot = new DejaVuBot();
     private ElapsedTime runtime = new ElapsedTime();
+    //look below at isBlue variable every gamepad run
     private boolean isBlue = true;
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
@@ -26,10 +28,12 @@ public class GamePadOpMode extends LinearOpMode {
 
         runtime.reset();
         double leftPower, rightPower;
-        double drive = gamepad1.left_stick_y;
+        double drive = -gamepad1.left_stick_y;
         double turn  =  gamepad1.right_stick_x;
 
         while(opModeIsActive()){
+            telemetry.addData("armMotor encoder value", robot.arm.armMotor.getCurrentPosition());
+            telemetry.addData("servo Position", robot.arm.bucketServo.getPosition());
             telemetry.addData("drive set to:", ""+drive);
             telemetry.addData("turn set to:", ""+turn);
             telemetry.update();
@@ -37,47 +41,62 @@ public class GamePadOpMode extends LinearOpMode {
             turn  =  gamepad1.right_stick_x;
             leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+            if (gamepad1.left_trigger > 0.5) {
+                leftPower = leftPower/4;
+                rightPower = rightPower/4;
+            }
             if(gamepad1.left_bumper) {
-                robot.turnRobot(-0.5);
-            } else if(gamepad1.right_bumper){
                 robot.turnRobot(0.5);
+            } else if(gamepad1.right_bumper){
+                robot.turnRobot(-0.5);
             } else {
                 robot.leftFrontMotor.setPower(leftPower);
                 robot.rightFrontMotor.setPower(rightPower);
                 robot.rightBackMotor.setPower(leftPower);
                 robot.leftBackMotor.setPower(rightPower);
             }
-            int count = 0;
-            robot.stopSpinner();
             if (gamepad2.left_bumper) {
                 if (isBlue) {
                     robot.spinClockWise();
                 } else {
                     robot.spinAntiClockWise();
                 }
-                sleep(3000);
-                robot.duckSpinner.setPower(0);
             }
-            /*
+            if (gamepad2.left_trigger > 0.5) {
+                robot.stopSpinner();
+            }
+
             if (gamepad2.right_bumper) {
                 robot.intake();
-                sleep(2000);
-                robot.intakeMotor.setPower(0);
-
-
             }
-            */
-            /*
+            if (gamepad2.right_trigger > 0.5) {
+                robot.stopIntake();
+            }
+            if (gamepad2.dpad_down) {
+                robot.arm.bucketServo.setDirection(Servo.Direction.REVERSE);
+                robot.arm.bucketServo.setPosition(0.0);
+            }
+            if (gamepad2.dpad_up){
+                robot.arm.bucketServo.setDirection(Servo.Direction.REVERSE);
+                robot.arm.bucketServo.setPosition(0.75);
+            }
+
+
+
             if(gamepad2.y) {
-                robot.arm.moveArmToLevel(3);
-            }
-            if (gamepad2.x) {
                 robot.arm.moveArmToLevel(2);
             }
-            if (gamepad2.a) {
+            if (gamepad2.x) {
                 robot.arm.moveArmToLevel(1);
             }
-            */
+
+            if (gamepad2.a) {
+                robot.arm.moveArmToLevel(0);
+            }
+            if (gamepad2.b) {
+                robot.arm.openBucketPos();
+            }
+
             //need to figure out buttons for bucketServo (3), and initial position of arm
 
             // Show the elapsed game time and wheel power.

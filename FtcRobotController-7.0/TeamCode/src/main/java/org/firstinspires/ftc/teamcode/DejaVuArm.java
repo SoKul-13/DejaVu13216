@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import static java.lang.Thread.sleep;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -11,57 +15,63 @@ public class DejaVuArm {
     /* Public OpMode members. */
     public DcMotorEx armMotor = null;
     public Servo bucketServo = null;
+    static final double ARM_WHEEL_CIRCUMFERENCE_MM = 2 * Math.PI;
+
+    static final double ARM_COUNTS_PER_MOTOR_REV = 28.0;
+    static final double ARM_DRIVE_GEAR_REDUCTION = 0.6030;
+
+    static final double ARM_COUNTS_PER_WHEEL_REV = ARM_COUNTS_PER_MOTOR_REV * ARM_DRIVE_GEAR_REDUCTION;
+    static final double ARM_COUNT_PER_MM = ARM_COUNTS_PER_WHEEL_REV/ARM_WHEEL_CIRCUMFERENCE_MM;
+    static final double ARM_COUNT_PER_FT = ARM_COUNT_PER_MM * 304.8;
+    public static final double ARM_COUNT_PER_INCH = ARM_COUNT_PER_FT/12;
+
+    //max rpm for our arm motor is 1,850, here we're using 1750 rpm
+    public static double SLIDER_TPS = 1750.0;
     //values of this dictionary are subject to change after encoders
     static HashMap<Integer, Integer> level_map = new HashMap<>();
-
     {
-        level_map.put(0, 50);
-        level_map.put(1, 200);
-        level_map.put(2, 400);
-        level_map.put(3, 700);
+        level_map.put(0, 0);
+        level_map.put(1, (int) (145/3 * ARM_COUNT_PER_INCH));
+        level_map.put(2, (int) (270/3 * ARM_COUNT_PER_INCH));
     }
 
     public static final double MID_SERVO = 0.5;
-    private int currentLevel = 1;
+    private int currentLevel = 0;
     private boolean isAuton;
     private HardwareMap hwMap = null;
 
-    public DejaVuArm() {
-
-    }
+    public DejaVuArm() {    }
 
     //Initialize the arm
     public void init(HardwareMap hMap, boolean isAuton) {
         this.isAuton = isAuton;
         this.hwMap = hMap;
-        //this.armMotor = hwMap.get(DcMotorEx.class, "armMotor");
-        //this.bucketServo = hwMap.get(Servo.class, "bucketServo");
+        this.armMotor = hwMap.get(DcMotorEx.class, "armMotor");
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        this.bucketServo = hwMap.get(Servo.class, "bucketServo");
         this.currentLevel = 1;
-        //this.armMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
-}
-/*
+
+
     public void moveArmToLevel(int level) {
-        int l = level_map.get(level);
-        armMotor.setTargetPosition(l);
-        while(armMotor.isBusy()) {
-            armMotor.setPower(0.25);
+        if(level != currentLevel) {
+            int l = level_map.get(level);
+            armMotor.setTargetPosition(l);
+            this.armMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            while (armMotor.isBusy()) {
+                armMotor.setVelocity(SLIDER_TPS);
+            }
+            currentLevel = level;
+            armMotor.setPower(0);
         }
-        armMotor.setPower(0);
     }
-
-
     public void openBucketPos() {
-        bucketServo.setPosition(1);
-    }
-
-    public void loadBucketPos() {
-        bucketServo.setPosition(0);
+        bucketServo.setPosition(0.75);
     }
 
     public void closeBucketPos() {
-        bucketServo.setPosition(-0.8);
+        bucketServo.setPosition(0.0);
     }
 }
 
- */

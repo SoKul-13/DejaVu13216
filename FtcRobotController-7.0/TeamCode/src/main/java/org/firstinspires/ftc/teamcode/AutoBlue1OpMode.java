@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /*
@@ -13,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
     Robot will deliver the freight at the top level - 6 points
     Park in warehouse- 10 points
 */
-/*  Action Items In Order Of Priority
+/*  Advanced Action Items In Order Of Priority
 
     Advanced Paths -> RoadRunner
     Strafe -> Gyro sensor
@@ -33,18 +36,28 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        driveForwardByInches(44, robot);
+        //driveForwardByInches(44, robot);
         telemetry.addData("AutoBlue1OpMode", "Ran forward ");
         telemetry.update();
 
         robot.gyroInit();
         robot.chassisEncoderOff();
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("AutoBlue1OpMode", "Ready to turn ");
+        telemetry.addData("AutoBlue1OpMode", getAbsoluteAngle());
         telemetry.update();
-
+        /*
+        while (opModeIsActive()) {
+            telemetry.addData("first angle", getAbsoluteAngle());
+            telemetry.addData("second angle", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).secondAngle);
+            telemetry.addData("third angle", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).thirdAngle);
+            telemetry.update();
+        }
+        */
         turnPID(-90);
+        telemetry.addData("AutoBlue1OpMode", getAbsoluteAngle());
+        telemetry.update();
         robot.chassisEncoderOn();
+        /*
         //arm code here
         sleep(5000);
         driveForwardByInches(34, robot);
@@ -60,5 +73,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         turnPID(-90);
         robot.chassisEncoderOn();
         driveForwardByInches(-144, robot);
+
+         */
     }
 }

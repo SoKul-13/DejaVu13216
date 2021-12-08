@@ -56,8 +56,12 @@ public class DejaVuBot {
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
     static final double DUCK_SPIN_POWER = 0.75;
+
     //motor constants for auton calculations
     static final double WHEEL_CIRCUMFERENCE_MM = 96 * Math.PI;
+    static final int CAROUSAL_DIAMETER_INCHES = 15;
+    static final int ONE_DUCK_SPIN_TARGET_LENGTH = (int) (2.5 *( Math.PI * CAROUSAL_DIAMETER_INCHES * DejaVuBot.COUNT_PER_INCH));
+
     static final double COUNTS_PER_MOTOR_REV = 28.0;
     static final double DRIVE_GEAR_REDUCTION = 16.25;
 
@@ -91,8 +95,8 @@ public class DejaVuBot {
 
         //Initialize the arm and duck spinner
         duckSpinner = hwMap.get(DcMotorEx.class, "duckSpinner");
-        //arm = new DejaVuArm();
-        //arm.init(hwMap, isAuton);
+        arm = new DejaVuArm();
+        arm.init(hwMap, isAuton);
         stopRobot();
 
 
@@ -213,5 +217,11 @@ public class DejaVuBot {
         if (intakeMotor != null) {
             intakeMotor.setPower(0);
         }
+    }
+    public void setMotorPower(double lF, double rF, double lB, double rB){
+        leftFrontMotor.setPower(lF);
+        leftBackMotor.setPower(lB);
+        rightBackMotor.setPower(rB);
+        rightFrontMotor.setPower(rF);
     }
 }
