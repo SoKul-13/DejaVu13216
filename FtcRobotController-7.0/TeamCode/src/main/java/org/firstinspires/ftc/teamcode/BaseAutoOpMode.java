@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class BaseAutoOpMode extends LinearOpMode {
     private Orientation lastAngles = new Orientation();
     private double currAngle = 0.0;
-
+    private int allowedAngleDiff = 1;
     DejaVuBot robot = new DejaVuBot();
 
     public double getAbsoluteAngle() {
@@ -24,40 +25,44 @@ public class BaseAutoOpMode extends LinearOpMode {
         ).firstAngle;
     }
 
-    public void turnPID(double degrees) {
-        turnToPID(degrees + getAbsoluteAngle());
+    public void turnPID(double degrees, DejaVuBot bot) {
+        turnToPID(degrees + getAbsoluteAngle(),bot);
     }
 
-    void turnToPID(double targetAngle) {
+    void turnToPID(double targetAngle, DejaVuBot bot) {
+        bot.gyroInit();
+        bot.chassisEncoderOff();
         if(targetAngle < 0){
             turnToPIDForNegativeAngle(targetAngle);
         }else {
-            PIDUtils pid = new PIDUtils(targetAngle, 0.01, 0, 0.003);
+            PIDUtils pid = new PIDUtils(targetAngle, 0.001, 0, 0.003);
             telemetry.setMsTransmissionInterval(50);
             // Checking lastSlope to make sure that it's not "oscillating" when it quits
-            telemetry.addData(" turn to pid sTART abs angle = ", getAbsoluteAngle());
-            telemetry.addData(" turn to pid start diff = ", Math.abs(targetAngle - getAbsoluteAngle()));
-            telemetry.addData(" turn to pid start slope = ", pid.getLastSlope());
+            telemetry.addData(" turnToPID sTART abs angle = ", getAbsoluteAngle());
+            telemetry.addData(" turnToPID start diff = ", Math.abs(targetAngle - Math.abs(getAbsoluteAngle())));
+            telemetry.addData(" turnToPID start slope = ", pid.getLastSlope());
             telemetry.update();
 
-            while (opModeIsActive() && (Math.abs(targetAngle - getAbsoluteAngle()) > 0.5 || pid.getLastSlope() > 0.75)) {
+            while (opModeIsActive() && (Math.abs(targetAngle - Math.abs(getAbsoluteAngle())) > allowedAngleDiff || pid.getLastSlope() > 0.75)) {
                 double motorPower = pid.update(getAbsoluteAngle());
 
-                robot.leftFrontMotor.setPower(-motorPower);
-                robot.leftBackMotor.setPower(-motorPower);
-                robot.rightFrontMotor.setPower(motorPower);
-                robot.rightBackMotor.setPower(motorPower);
+                bot.leftFrontMotor.setPower(-motorPower);
+                bot.leftBackMotor.setPower(-motorPower);
+                bot.rightFrontMotor.setPower(motorPower);
+                bot.rightBackMotor.setPower(motorPower);
 
-                telemetry.addData(" turn to pid angle difference = ", Math.abs(targetAngle - getAbsoluteAngle()));
-                telemetry.addData(" turn to pid slope = ", pid.getLastSlope());
+                telemetry.addData(" turnToPID loop abs angle = ", getAbsoluteAngle());
+                telemetry.addData(" turnToPID angle difference = ", Math.abs(targetAngle - Math.abs(getAbsoluteAngle())));
+                telemetry.addData(" turnToPID slope = ", pid.getLastSlope());
+
                 telemetry.update();
             }
 
-            robot.setPowerToAllMotors(0);
+            bot.setPowerToAllMotors(0);
         }
 
     }
-    public void driveForwardByInches(int distance, DejaVuBot bot) {
+    public void driveForwardByInches(int distance, DejaVuBot bot, double driveVelocity) {
         bot.stopRobot();
         int targetInput = (int) ((48/41)*(distance * DejaVuBot.COUNT_PER_INCH));
         telemetry.addData("Target Position Set to:", targetInput);
@@ -70,8 +75,7 @@ public class BaseAutoOpMode extends LinearOpMode {
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready for run");
         telemetry.update();
-
-        bot.setVelocityToAllMotors(DejaVuBot.TPS);
+        bot.setVelocityToAllMotors(driveVelocity);
         while (opModeIsActive() && bot.leftFrontMotor.isBusy()) {
             telemetry.addData("left", bot.leftFrontMotor.getCurrentPosition());
             telemetry.addData("right", bot.rightFrontMotor.getCurrentPosition());
@@ -80,89 +84,21 @@ public class BaseAutoOpMode extends LinearOpMode {
     }
 
     @Override
-        public void runOpMode() throws InterruptedException {
-            telemetry.addData("Status", "Initialized");
-            telemetry.update();
-            // Wait for the game to start (driver presses PLAY)
-            waitForStart();
-            // run until the end of the match (driver presses STOP)
-            while (opModeIsActive()) {
+    public void runOpMode() throws InterruptedException {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
 
-                telemetry.addData("Status", "Running");
-                telemetry.update();
-            }
-        }
-
-        /* Code below turns the robot based on non PID code */
-    static final double     FORWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.5;// resets currAngle Value
-    public void resetAngle() {
-        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        currAngle = 0;
-    }
-
-    public double getAngle() {
-
-        // Get current orientation
-        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        // Change in angle = current angle - previous angle
-        double deltaAngle = orientation.firstAngle - lastAngles.firstAngle;
-
-        // Gyro only ranges from -179 to 180
-        // If it turns -1 degree over from -179 to 180, subtract 360 from the 359 to get -1
-        if (deltaAngle < -180) {
-            deltaAngle += 360;
-        } else if (deltaAngle > 180) {
-            deltaAngle -= 360;
-        }
-
-        // Add change in angle to current angle to get current angle
-        currAngle += deltaAngle;
-        lastAngles = orientation;
-        telemetry.addData("gyro", orientation.firstAngle);
-        return currAngle;
-    }
-
-    public void turn(double degrees){
-        resetAngle();
-
-        double error = degrees;
-
-        while (opModeIsActive() && Math.abs(error) > 2) {
-            double motorPower = (error < 0 ? -0.3 : 0.3);
-            robot.setMotorPower(-motorPower, motorPower, -motorPower, motorPower);
-            error = degrees - getAngle();
-            telemetry.addData("error", error);
+        // run until the end of the match (driver presses STOP)
+        while (opModeIsActive()) {
+            telemetry.addData("Status", "Running");
             telemetry.update();
         }
-
-        robot.setPowerToAllMotors(0);
     }
 
-    public void turnTo(double degrees){
-        if(degrees < 0){
-            //Use the PID function for negative turns
-            turnToPIDForNegativeAngle(degrees);
-        }else {
-
-            Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-            System.out.println(orientation.firstAngle);
-            double error = degrees - orientation.firstAngle;
-
-            if (error > 180) {
-                error -= 360;
-            } else if (error < -180) {
-                error += 360;
-            }
-
-            turn(error);
-        }
-    }
-
-    void turnToPIDForNegativeAngle(double targetAngle) {
-        PIDUtils pid = new PIDUtils(targetAngle, 0.0001, 0, 0.003);
+    private void turnToPIDForNegativeAngle(double targetAngle) {
+        PIDUtils pid = new PIDUtils(targetAngle, 0.001, 0, 0.003);
         telemetry.setMsTransmissionInterval(50);
         // Checking lastSlope to make sure that it's not "oscillating" when it quits
         telemetry.addData(" turnToPIDForNegativeAngle s abs angle = ", getAbsoluteAngle());
@@ -171,7 +107,7 @@ public class BaseAutoOpMode extends LinearOpMode {
         telemetry.update();
 
         while (opModeIsActive()
-                && (Math.abs(Math.abs(targetAngle) - getAbsoluteAngle()) > 0.5
+                && (Math.abs(Math.abs(targetAngle) - getAbsoluteAngle()) > allowedAngleDiff
                 || pid.getLastSlope() > 0.75)) {
             double motorPower = pid.update(getAbsoluteAngle());
 
@@ -189,9 +125,13 @@ public class BaseAutoOpMode extends LinearOpMode {
         robot.setPowerToAllMotors(0);
     }
 
-    public void spinForOneDuck(DejaVuBot bot) {
+    public void spinForOneDuck(DejaVuBot bot, boolean clockwise) {
         bot.duckSpinner.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.duckSpinner.setDirection(DcMotorEx.Direction.FORWARD);
+        if(!clockwise)
+            bot.duckSpinner.setDirection(DcMotorEx.Direction.FORWARD);
+        else
+            bot.duckSpinner.setDirection(DcMotorEx.Direction.REVERSE);
+
         bot.duckSpinner.setTargetPosition(DejaVuBot.ONE_DUCK_SPIN_TARGET_LENGTH);
         bot.duckSpinner.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         bot.duckSpinner.setVelocity(DejaVuBot.TPS);

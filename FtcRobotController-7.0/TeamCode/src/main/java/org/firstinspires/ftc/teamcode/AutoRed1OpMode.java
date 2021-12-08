@@ -26,41 +26,40 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, " Running the opmode ");
         telemetry.update();
-        /*
-        driveForwardByInches(44, robot);
-        robot.gyroInit();
-        robot.chassisEncoderOff();
-        turnTo(-90);
-        turnTo(-90);
-        turnTo(-90);
+
+        driveForwardByInches(44, robot, DejaVuBot.TPS);
+        turnToPID(-90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
-        sleep(2000);
+        driveForwardByInches(-6, robot, DejaVuBot.TPS);
+
         //Drop the piece here and reset the arm to initial position
+        //robot.arm.moveArmToLevel(2);
         //robot.arm.openBucketPos();
-        //robot.arm.moveArmToLevel(DejaVuArm.level_map.get(0));
+        //robot.arm.closeBucketPos();
         telemetry.addData(name, " Dropped the freight ");
         telemetry.update();
 
-        /*Move the robot to spin the duck
-        driveForwardByInches(18, robot);
-        robot.chassisEncoderOff();
-        turnTo(-90);
-        turnTo(-90);
-        turnTo(-90);
-        driveForwardByInches(-18, robot);*/
-        spinForOneDuck(robot);
+        //Move the robot to spin the duck
+        driveForwardByInches(6, robot, DejaVuBot.TPS);
+        turnToPID(90,robot);
+        driveForwardByInches(-42, robot, DejaVuBot.TPS);
+        telemetry.addData(name, " Driving to wall ");
+        telemetry.update();
+
+        turnToPID(90, robot);
+        driveForwardByInches(-26, robot, DejaVuBot.TPS);
+        driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
+        spinForOneDuck(robot, false);
         telemetry.addData(name, " Duck spinned ");
         telemetry.update();
-        /*Turn and park in warehouse
-        robot.chassisEncoderOff();
-        turnTo(-90);
 
-        driveForwardByInches(-44, robot);*/
+        //Turn and park in warehouse
+
+        driveForwardByInches(144, robot, DejaVuBot.TPS * 2);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");
         telemetry.update();
-
     }
 }

@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
     Robot will deliver the freight at the top level - 6 points
     Park in warehouse- 10 points
 */
-/*  Advanced Action Items In Order Of Priority
+/*  Action Items In Order Of Priority
 
     Advanced Paths -> RoadRunner
     Strafe -> Gyro sensor
@@ -35,45 +35,5 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
-        //driveForwardByInches(44, robot);
-        telemetry.addData("AutoBlue1OpMode", "Ran forward ");
-        telemetry.update();
-
-        robot.gyroInit();
-        robot.chassisEncoderOff();
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("AutoBlue1OpMode", getAbsoluteAngle());
-        telemetry.update();
-        /*
-        while (opModeIsActive()) {
-            telemetry.addData("first angle", getAbsoluteAngle());
-            telemetry.addData("second angle", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).secondAngle);
-            telemetry.addData("third angle", robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).thirdAngle);
-            telemetry.update();
-        }
-        */
-        turnPID(-90);
-        telemetry.addData("AutoBlue1OpMode", getAbsoluteAngle());
-        telemetry.update();
-        robot.chassisEncoderOn();
-        /*
-        //arm code here
-        sleep(5000);
-        driveForwardByInches(34, robot);
-        robot.chassisEncoderOff();
-        turnPID(90);
-        robot.chassisEncoderOn();
-        driveForwardByInches(-18, robot);
-        robot.spinClockWise();
-        sleep(3000);
-        robot.duckSpinner.setPower(0);
-        //Turn and park in warehouse
-        robot.chassisEncoderOff();
-        turnPID(-90);
-        robot.chassisEncoderOn();
-        driveForwardByInches(-144, robot);
-
-         */
     }
 }

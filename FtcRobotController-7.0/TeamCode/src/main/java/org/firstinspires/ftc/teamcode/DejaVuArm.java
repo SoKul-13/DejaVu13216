@@ -27,15 +27,13 @@ public class DejaVuArm {
 
     //max rpm for our arm motor is 1,850, here we're using 1750 rpm
     public static double SLIDER_TPS = 1750.0;
-    //values of this dictionary are subject to change after encoders
     static HashMap<Integer, Integer> level_map = new HashMap<>();
     {
         level_map.put(0, 0);
         level_map.put(1, (int) (145/3 * ARM_COUNT_PER_INCH));
-        level_map.put(2, (int) (270/3 * ARM_COUNT_PER_INCH));
+        level_map.put(2, (int) (260/3 * ARM_COUNT_PER_INCH));
     }
 
-    public static final double MID_SERVO = 0.5;
     private int currentLevel = 0;
     private boolean isAuton;
     private HardwareMap hwMap = null;
@@ -50,7 +48,7 @@ public class DejaVuArm {
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setDirection(DcMotorEx.Direction.FORWARD);
         this.bucketServo = hwMap.get(Servo.class, "bucketServo");
-        this.currentLevel = 1;
+        this.currentLevel = 0;
     }
 
 
@@ -62,8 +60,8 @@ public class DejaVuArm {
             while (armMotor.isBusy()) {
                 armMotor.setVelocity(SLIDER_TPS);
             }
-            currentLevel = level;
             armMotor.setPower(0);
+            currentLevel = level;
         }
     }
     public void openBucketPos() {
