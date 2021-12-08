@@ -73,12 +73,7 @@ public class GamePadOpMode extends LinearOpMode {
                 robot.stopIntake();
             }
             if (gamepad2.dpad_down) {
-                robot.arm.bucketServo.setDirection(Servo.Direction.REVERSE);
-                robot.arm.bucketServo.setPosition(0.0);
-            }
-            if (gamepad2.dpad_up){
-                robot.arm.bucketServo.setDirection(Servo.Direction.REVERSE);
-                robot.arm.bucketServo.setPosition(0.75);
+                isBlue = !isBlue;
             }
 
 
@@ -95,6 +90,8 @@ public class GamePadOpMode extends LinearOpMode {
             }
             if (gamepad2.b) {
                 robot.arm.openBucketPos();
+                if (robot.arm.bucketServo.getPosition() == 0.75)
+                robot.arm.closeBucketPos();
             }
 
             //need to figure out buttons for bucketServo (3), and initial position of arm

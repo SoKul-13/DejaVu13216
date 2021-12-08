@@ -183,7 +183,7 @@ public class DejaVuBot {
         leftBackMotor.setPower(turnSpeed);
     }
 
-    public void spinClockWise() {
+    public void spinAntiClockWise() {
         if (duckSpinner != null) {
             duckSpinner.setDirection(DcMotorEx.Direction.FORWARD);
             duckSpinner.setPower(DUCK_SPIN_POWER);
@@ -195,7 +195,7 @@ public class DejaVuBot {
         }
     }
 
-    public void spinAntiClockWise() {
+    public void spinClockWise() {
         if (duckSpinner != null) {
             duckSpinner.setDirection(DcMotorEx.Direction.REVERSE);
             duckSpinner.setPower(DUCK_SPIN_POWER);
