@@ -30,24 +30,29 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap, true);
-
+        robot.arm.closeBucketPos();
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, " Robot ready for run");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        //Notes: after dropping, ram into wall, go back 3 inches, turn, move to duck spinner
 
-        driveForwardByInches(44, robot, DejaVuBot.TPS);
+        driveForwardByInches(46, robot, DejaVuBot.TPS);
         turnToPID(90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
-        driveForwardByInches(-6, robot, DejaVuBot.TPS);
+        driveForwardByInches(-3/2, robot, DejaVuBot.TPS);
 
         //Drop the piece here and reset the arm to initial position
-        //robot.arm.moveArmToLevel(2);
-        //robot.arm.openBucketPos();
-        //robot.arm.closeBucketPos();
+        robot.arm.moveArmToLevel(2);
+        sleep(500);
+        robot.arm.bucketServo.setPosition(0.75);
+        sleep(1000);
+        robot.arm.bucketServo.setPosition(0.075);
+        sleep(500);
+        robot.arm.moveArmToLevel(1);
         telemetry.addData(name, " Dropped the freight ");
         telemetry.update();
 
@@ -57,7 +62,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         telemetry.addData(name, " Driving to wall ");
         telemetry.update();
 
-        driveForwardByInches(-36, robot, DejaVuBot.TPS);
+        driveForwardByInches(-33, robot, DejaVuBot.TPS);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
         spinForOneDuck(robot, false);
         turnToPID(90,robot);
@@ -65,7 +70,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         telemetry.addData(name, " Duck spinned ");
         telemetry.update();
 
-        driveForwardByInches(-122, robot, DejaVuBot.TPS * 2);
+        driveForwardByInches(-120, robot, DejaVuBot.TPS * 2);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");

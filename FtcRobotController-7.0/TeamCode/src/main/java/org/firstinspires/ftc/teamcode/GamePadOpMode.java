@@ -91,11 +91,16 @@ public class GamePadOpMode extends LinearOpMode {
             if (gamepad2.b) {
                 robot.arm.openBucketPos();
                 if (robot.arm.bucketServo.getPosition() == 0.75)
-                robot.arm.closeBucketPos();
+                    robot.arm.closeBucketPos();
+            }
+            if (gamepad2.dpad_down) {
+                robot.arm.bucketServo.setPosition(0.075);
+            }
+            if (gamepad2.dpad_up) {
+                robot.arm.bucketServo.setPosition(0.75);
             }
 
             //need to figure out buttons for bucketServo (3), and initial position of arm
-
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Completed");
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);

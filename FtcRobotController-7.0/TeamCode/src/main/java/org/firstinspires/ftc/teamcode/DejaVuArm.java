@@ -15,26 +15,19 @@ public class DejaVuArm {
     /* Public OpMode members. */
     public DcMotorEx armMotor = null;
     public Servo bucketServo = null;
-    static final double ARM_WHEEL_CIRCUMFERENCE_MM = 2 * Math.PI;
-
-    static final double ARM_COUNTS_PER_MOTOR_REV = 28.0;
-    static final double ARM_DRIVE_GEAR_REDUCTION = 0.6030;
-
-    static final double ARM_COUNTS_PER_WHEEL_REV = ARM_COUNTS_PER_MOTOR_REV * ARM_DRIVE_GEAR_REDUCTION;
-    static final double ARM_COUNT_PER_MM = ARM_COUNTS_PER_WHEEL_REV/ARM_WHEEL_CIRCUMFERENCE_MM;
-    static final double ARM_COUNT_PER_FT = ARM_COUNT_PER_MM * 304.8;
-    public static final double ARM_COUNT_PER_INCH = ARM_COUNT_PER_FT/12;
+    static final double PULSES_PER_REVOLUTION = 751.8;
 
     //max rpm for our arm motor is 1,850, here we're using 1750 rpm
     public static double SLIDER_TPS = 1750.0;
     static HashMap<Integer, Integer> level_map = new HashMap<>();
     {
-        level_map.put(0, 0);
-        level_map.put(1, (int) (145/3 * ARM_COUNT_PER_INCH));
-        level_map.put(2, (int) (260/3 * ARM_COUNT_PER_INCH));
+        level_map.put(0, 63);
+        level_map.put(1, (int) (1 * PULSES_PER_REVOLUTION));
+        level_map.put(2, (int) (2.4 * PULSES_PER_REVOLUTION));
     }
 
     private int currentLevel = 0;
+    public int armMotorBasePos;
     private boolean isAuton;
     private HardwareMap hwMap = null;
 
@@ -45,9 +38,9 @@ public class DejaVuArm {
         this.isAuton = isAuton;
         this.hwMap = hMap;
         this.armMotor = hwMap.get(DcMotorEx.class, "armMotor");
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setDirection(DcMotorEx.Direction.FORWARD);
         this.bucketServo = hwMap.get(Servo.class, "bucketServo");
+        bucketServo.setDirection(Servo.Direction.REVERSE);
         this.currentLevel = 0;
     }
 
@@ -69,7 +62,7 @@ public class DejaVuArm {
     }
 
     public void closeBucketPos() {
-        bucketServo.setPosition(0.0);
+        bucketServo.setPosition(0.075);
     }
 }
 
