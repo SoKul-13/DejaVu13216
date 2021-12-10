@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -19,6 +21,8 @@ public class GamePadOpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap,false);
         robot.chassisEncoderOff();
+        robot.arm.closeBucketPos();
+        robot.arm.moveArmToLevel(0);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready for gamepad run");
         telemetry.update();
@@ -56,27 +60,29 @@ public class GamePadOpMode extends LinearOpMode {
                 robot.leftBackMotor.setPower(rightPower);
             }
             if (gamepad2.left_bumper) {
-                if (isBlue) {
-                    robot.spinClockWise();
+                if (gamepad2.b) {
+                    robot.duckSpinner.setDirection(DcMotorEx.Direction.REVERSE);
                 } else {
-                    robot.spinAntiClockWise();
+                    robot.duckSpinner.setDirection(DcMotorEx.Direction.FORWARD);
                 }
+                robot.spinDuck();
+
             }
             if (gamepad2.left_trigger > 0.5) {
                 robot.stopSpinner();
             }
 
             if (gamepad2.right_bumper) {
+                if (gamepad2.b) {
+                    robot.intakeMotor.setDirection(DcMotorEx.Direction.REVERSE);
+                } else {
+                    robot.intakeMotor.setDirection(DcMotorEx.Direction.FORWARD);
+                }
                 robot.intake();
             }
             if (gamepad2.right_trigger > 0.5) {
                 robot.stopIntake();
             }
-            if (gamepad2.dpad_down) {
-                isBlue = !isBlue;
-            }
-
-
 
             if(gamepad2.y) {
                 robot.arm.moveArmToLevel(2);
@@ -84,20 +90,14 @@ public class GamePadOpMode extends LinearOpMode {
             if (gamepad2.x) {
                 robot.arm.moveArmToLevel(1);
             }
-
             if (gamepad2.a) {
                 robot.arm.moveArmToLevel(0);
             }
-            if (gamepad2.b) {
-                robot.arm.openBucketPos();
-                if (robot.arm.bucketServo.getPosition() == 0.75)
-                    robot.arm.closeBucketPos();
-            }
             if (gamepad2.dpad_down) {
-                robot.arm.bucketServo.setPosition(0.075);
+                robot.arm.bucketServo.setPosition(0.113);
             }
             if (gamepad2.dpad_up) {
-                robot.arm.bucketServo.setPosition(0.75);
+                robot.arm.bucketServo.setPosition(0.887);
             }
 
             //need to figure out buttons for bucketServo (3), and initial position of arm

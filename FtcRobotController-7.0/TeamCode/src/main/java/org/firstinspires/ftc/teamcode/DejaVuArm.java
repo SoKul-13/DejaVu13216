@@ -18,7 +18,7 @@ public class DejaVuArm {
     static final double PULSES_PER_REVOLUTION = 751.8;
 
     //max rpm for our arm motor is 1,850, here we're using 1750 rpm
-    public static double SLIDER_TPS = 1750.0;
+    public static double SLIDER_TPS = 2200.0;
     static HashMap<Integer, Integer> level_map = new HashMap<>();
     {
         level_map.put(0, 63);
@@ -40,7 +40,9 @@ public class DejaVuArm {
         this.armMotor = hwMap.get(DcMotorEx.class, "armMotor");
         armMotor.setDirection(DcMotorEx.Direction.FORWARD);
         this.bucketServo = hwMap.get(Servo.class, "bucketServo");
-        bucketServo.setDirection(Servo.Direction.REVERSE);
+        bucketServo.setDirection(Servo.Direction.FORWARD);
+        this.closeBucketPos();
+        this.moveArmToLevel(0);
         this.currentLevel = 0;
     }
 
@@ -58,11 +60,13 @@ public class DejaVuArm {
         }
     }
     public void openBucketPos() {
-        bucketServo.setPosition(0.75);
+        bucketServo.setPosition(0.113);
     }
 
     public void closeBucketPos() {
-        bucketServo.setPosition(0.075);
+        bucketServo.setPosition(0.887);
     }
+    public void resetArmMotor() { armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);}
+
 }
 

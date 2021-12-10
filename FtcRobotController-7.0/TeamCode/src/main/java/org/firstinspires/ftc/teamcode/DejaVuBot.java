@@ -55,7 +55,7 @@ public class DejaVuBot {
     /* local OpMode members. */
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
-    static final double DUCK_SPIN_POWER = 0.75;
+    public double DUCK_SPIN_POWER = 0.75;
 
     //motor constants for auton calculations
     static final double WHEEL_CIRCUMFERENCE_MM = 96 * Math.PI;
@@ -73,7 +73,7 @@ public class DejaVuBot {
     //max rpm for our motors are 338, here we're using 175 rpm
     public static double TPS = (double) ((175/60) * COUNTS_PER_WHEEL_REV);
 
-    public static double INTAKE_MOTOR_SPEED = 1.0;
+    public double INTAKE_MOTOR_SPEED = 1.0;
 
     /* Constructor */
     public DejaVuBot() {
@@ -201,7 +201,9 @@ public class DejaVuBot {
             duckSpinner.setPower(DUCK_SPIN_POWER);
         }
     }
-
+    public void spinDuck() {
+        duckSpinner.setPower(DUCK_SPIN_POWER);
+    }
     //will be used if we have time
     public void scanLevel() {
 

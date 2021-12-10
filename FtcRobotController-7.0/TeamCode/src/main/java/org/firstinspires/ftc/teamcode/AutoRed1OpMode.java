@@ -1,16 +1,31 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.navigation.*;
 
-/**
- * This class represents the autonomous run from Red1 position
- */
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+/*
+    Red1 and Blue 1 strategy.--- 26 points
+    Robot will spin the duck table 1 time -10
+    Robot will deliver the freight at the top level - 6 points
+    Park in warehouse- 10 points
+*/
+/*  Action Items In Order Of Priority
+
+    Advanced Paths -> RoadRunner
+    Strafe -> Gyro sensor
+    Vision -> OpenCV
+*/
 @Autonomous(name="AutoRed1OpMode", group="AutoOpModes")
 public class AutoRed1OpMode extends BaseAutoOpMode {
-    private String name = "AutoRed2OpMode";
     private ElapsedTime runtime = new ElapsedTime();
+    String name = "AutoBlue1OpMode";
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,47 +37,40 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        //Notes: after dropping, ram into wall, go back 3 inches, turn, move to duck spinner
 
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData(name, " Running the opmode ");
-        telemetry.update();
-
-        driveForwardByInches(44, robot, DejaVuBot.TPS);
+        driveForwardByInches(46, robot, DejaVuBot.TPS);
         turnToPID(-90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
-        driveForwardByInches(-6, robot, DejaVuBot.TPS);
+        driveForwardByInches(-3/2, robot, DejaVuBot.TPS);
 
         //Drop the piece here and reset the arm to initial position
         robot.arm.moveArmToLevel(2);
         sleep(500);
-        robot.arm.bucketServo.setPosition(0.75);
+        robot.arm.bucketServo.setPosition(0.113);
         sleep(1000);
-        robot.arm.bucketServo.setPosition(0.075);
+        robot.arm.bucketServo.setPosition(0.887);
         sleep(500);
         robot.arm.moveArmToLevel(1);
         telemetry.addData(name, " Dropped the freight ");
         telemetry.update();
 
         //Move the robot to spin the duck
-        driveForwardByInches(6, robot, DejaVuBot.TPS);
+        driveForwardByInches(37, robot, DejaVuBot.TPS);
         turnToPID(90,robot);
-        driveForwardByInches(-42, robot, DejaVuBot.TPS);
         telemetry.addData(name, " Driving to wall ");
         telemetry.update();
 
-        turnToPID(90, robot);
-        driveForwardByInches(-25, robot, DejaVuBot.TPS);
+        driveForwardByInches(-31, robot, DejaVuBot.TPS);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
         spinForOneDuck(robot, false);
+        turnToPID(-90,robot);
+
         telemetry.addData(name, " Duck spinned ");
         telemetry.update();
 
-        //Turn and park in warehouse
-        //if need to strafe out of other robot direction use below
-        //strafeDirection(robot, true, 200);
-
-        driveForwardByInches(122, robot, DejaVuBot.TPS * 2);
+        driveForwardByInches(-124, robot, DejaVuBot.TPS * 2);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");
