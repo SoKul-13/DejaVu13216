@@ -15,7 +15,7 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap, true);
-
+        robot.arm.closeBucketPos();
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, " Robot ready for run");
         telemetry.update();
@@ -34,9 +34,13 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         driveForwardByInches(-6, robot, DejaVuBot.TPS);
 
         //Drop the piece here and reset the arm to initial position
-        //robot.arm.moveArmToLevel(2);
-        //robot.arm.openBucketPos();
-        //robot.arm.closeBucketPos();
+        robot.arm.moveArmToLevel(2);
+        sleep(500);
+        robot.arm.bucketServo.setPosition(0.75);
+        sleep(1000);
+        robot.arm.bucketServo.setPosition(0.075);
+        sleep(500);
+        robot.arm.moveArmToLevel(1);
         telemetry.addData(name, " Dropped the freight ");
         telemetry.update();
 
@@ -48,7 +52,7 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         telemetry.update();
 
         turnToPID(90, robot);
-        driveForwardByInches(-26, robot, DejaVuBot.TPS);
+        driveForwardByInches(-25, robot, DejaVuBot.TPS);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
         spinForOneDuck(robot, false);
         telemetry.addData(name, " Duck spinned ");
