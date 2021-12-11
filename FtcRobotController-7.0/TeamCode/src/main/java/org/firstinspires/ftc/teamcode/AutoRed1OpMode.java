@@ -39,11 +39,11 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         waitForStart();
         //Notes: after dropping, ram into wall, go back 3 inches, turn, move to duck spinner
 
-        driveForwardByInches(46, robot, DejaVuBot.TPS);
+        driveForwardByInches(44, robot, DejaVuBot.TPS);
         turnToPID(-90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
-        driveForwardByInches(-3/2, robot, DejaVuBot.TPS);
+        driveForwardByInches(-8/2, robot, DejaVuBot.TPS);
 
         //Drop the piece here and reset the arm to initial position
         robot.arm.moveArmToLevel(2);
@@ -57,20 +57,23 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         telemetry.update();
 
         //Move the robot to spin the duck
-        driveForwardByInches(37, robot, DejaVuBot.TPS);
+        driveForwardByInches(71/2, robot, DejaVuBot.TPS);
         turnToPID(90,robot);
         telemetry.addData(name, " Driving to wall ");
         telemetry.update();
 
-        driveForwardByInches(-31, robot, DejaVuBot.TPS);
+        driveForwardByInches(-35, robot, DejaVuBot.TPS*2);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
-        spinForOneDuck(robot, false);
+        turnToPID(55, robot);
+        driveForwardByInches(-3/2, robot, DejaVuBot.TPS/2);
+        spinForOneDuck(robot, true);
         turnToPID(-90,robot);
+        turnToPID(-50, robot);
 
         telemetry.addData(name, " Duck spinned ");
         telemetry.update();
 
-        driveForwardByInches(-124, robot, DejaVuBot.TPS * 2);
+        driveForwardByInches(-130, robot, DejaVuBot.TPS * 4);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");
