@@ -23,7 +23,7 @@ public class DejaVuArm {
     {
         level_map.put(0, 63);
         level_map.put(1, (int) (1 * PULSES_PER_REVOLUTION));
-        level_map.put(2, (int) (2.4 * PULSES_PER_REVOLUTION));
+        level_map.put(2, (int) (2.3 * PULSES_PER_REVOLUTION));
     }
 
     private int currentLevel = 0;
@@ -56,6 +56,14 @@ public class DejaVuArm {
                 armMotor.setVelocity(SLIDER_TPS);
             }
             armMotor.setPower(0);
+            if (armMotor.getCurrentPosition() < 63) {
+                armMotor.setTargetPosition(level_map.get(0));
+                armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                while (armMotor.isBusy()) {
+                    armMotor.setVelocity(SLIDER_TPS/3);
+                }
+                armMotor.setPower(0);
+            }
             currentLevel = level;
         }
     }

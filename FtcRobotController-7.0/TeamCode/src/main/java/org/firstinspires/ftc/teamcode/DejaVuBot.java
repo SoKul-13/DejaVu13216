@@ -153,14 +153,6 @@ public class DejaVuBot {
     }
 
     //Turn the robot at the given speed
-    public void addForwardPositionToAllMotors(int forwardLength) {
-        leftBackMotor.setTargetPosition(leftBackMotor.getTargetPosition() + forwardLength);
-        leftFrontMotor.setTargetPosition(leftFrontMotor.getTargetPosition() + forwardLength);
-        rightBackMotor.setTargetPosition(rightBackMotor.getTargetPosition() + forwardLength);
-        rightFrontMotor.setTargetPosition(rightFrontMotor.getTargetPosition() + forwardLength);
-    }
-
-    //Turn the robot at the given speed
     public void setPowerToAllMotors(double speed) {
         leftFrontMotor.setPower(speed);
         rightFrontMotor.setPower(speed);

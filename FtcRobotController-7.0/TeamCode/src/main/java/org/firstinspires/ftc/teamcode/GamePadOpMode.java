@@ -94,10 +94,10 @@ public class GamePadOpMode extends LinearOpMode {
                 robot.arm.moveArmToLevel(0);
             }
             if (gamepad2.dpad_down) {
-                robot.arm.bucketServo.setPosition(0.113);
+                robot.arm.bucketServo.setPosition(0.887);
             }
             if (gamepad2.dpad_up) {
-                robot.arm.bucketServo.setPosition(0.887);
+                robot.arm.bucketServo.setPosition(0.113);
             }
 
             //need to figure out buttons for bucketServo (3), and initial position of arm
