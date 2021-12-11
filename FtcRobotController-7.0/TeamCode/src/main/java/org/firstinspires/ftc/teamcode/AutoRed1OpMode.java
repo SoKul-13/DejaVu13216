@@ -65,7 +65,8 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         driveForwardByInches(-35, robot, DejaVuBot.TPS*2);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
         turnToPID(55, robot);
-        driveForwardByInches(-3/2, robot, DejaVuBot.TPS/2);
+        //f
+        driveForwardByInches(-5/2, robot, DejaVuBot.TPS/2);
         spinForOneDuck(robot, true);
         turnToPID(-90,robot);
         turnToPID(-50, robot);
