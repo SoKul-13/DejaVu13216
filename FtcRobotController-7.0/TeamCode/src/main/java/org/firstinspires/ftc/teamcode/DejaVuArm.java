@@ -21,9 +21,9 @@ public class DejaVuArm {
     public static double SLIDER_TPS = 2200.0;
     static HashMap<Integer, Integer> level_map = new HashMap<>();
     {
-        level_map.put(0, 63);
+        level_map.put(0, -25);
         level_map.put(1, (int) (1 * PULSES_PER_REVOLUTION));
-        level_map.put(2, (int) (2.3 * PULSES_PER_REVOLUTION));
+        level_map.put(2, (int) (1725));
     }
 
     private int currentLevel = 0;
@@ -56,11 +56,11 @@ public class DejaVuArm {
                 armMotor.setVelocity(SLIDER_TPS);
             }
             armMotor.setPower(0);
-            if (armMotor.getCurrentPosition() < 63) {
-                armMotor.setTargetPosition(level_map.get(0));
+            if (armMotor.getCurrentPosition() != level_map.get(level)) {
+                armMotor.setTargetPosition(level_map.get(level));
                 armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 while (armMotor.isBusy()) {
-                    armMotor.setVelocity(SLIDER_TPS/3);
+                    armMotor.setVelocity(SLIDER_TPS/4);
                 }
                 armMotor.setPower(0);
             }

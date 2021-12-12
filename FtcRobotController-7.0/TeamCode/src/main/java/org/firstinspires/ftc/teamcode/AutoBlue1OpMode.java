@@ -62,15 +62,16 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         telemetry.addData(name, " Driving to wall ");
         telemetry.update();
 
-        driveForwardByInches(-31, robot, DejaVuBot.TPS);
+        driveForwardByInches(-34, robot, DejaVuBot.TPS);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
         spinForOneDuck(robot, false);
+        driveForwardByInches(3, robot, DejaVuBot.TPS);
         turnToPID(90,robot);
 
         telemetry.addData(name, " Duck spinned ");
         telemetry.update();
 
-        driveForwardByInches(-124, robot, DejaVuBot.TPS * 2);
+        driveForwardByInches(-124, robot, DejaVuBot.TPS * 4);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");

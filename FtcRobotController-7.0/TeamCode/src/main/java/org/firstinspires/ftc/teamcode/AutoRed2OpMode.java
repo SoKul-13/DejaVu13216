@@ -55,8 +55,9 @@ public class AutoRed2OpMode extends BaseAutoOpMode {
         turnToPID(90, robot);
 */
         robot.arm.closeBucketPos();
-        robot.intake();
+        //robot.intake();
         driveForwardByInches(45, robot, DejaVuBot.TPS);
+        /*
         driveForwardByInches(4, robot, DejaVuBot.TPS);
         sleep(1500);
         driveForwardByInches(-49, robot, DejaVuBot.TPS);
@@ -89,7 +90,7 @@ public class AutoRed2OpMode extends BaseAutoOpMode {
         //turnToPID(90, robot);
         robot.arm.closeBucketPos();
         driveForwardByInches(52, robot, DejaVuBot.TPS);
-
+*/
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");
         telemetry.update();

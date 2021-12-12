@@ -55,7 +55,7 @@ public class DejaVuBot {
     /* local OpMode members. */
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
-    public double DUCK_SPIN_POWER = 0.75;
+    public double DUCK_SPIN_POWER = 0.55;
 
     //motor constants for auton calculations
     static final double WHEEL_CIRCUMFERENCE_MM = 96 * Math.PI;
