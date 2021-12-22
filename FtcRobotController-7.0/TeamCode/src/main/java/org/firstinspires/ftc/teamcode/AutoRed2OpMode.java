@@ -7,9 +7,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.*;
 /**
  * This class represents the autonomous run from Red1 position
  */
-@Autonomous(name="AutoBlue2OpMode", group="AutoOpModes")
-public class AutoBlue2OpMode extends BaseAutoOpMode {
-    private String name = "AutoBlue2OpMode";
+@Autonomous(name="AutoRed2OpMode", group="AutoOpModes")
+public class AutoRed2OpMode extends BaseAutoOpMode {
+    private String name = "AutoRed2OpMode";
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -27,8 +27,8 @@ public class AutoBlue2OpMode extends BaseAutoOpMode {
         telemetry.addData(name, " Running the opmode ");
         telemetry.update();
 
-        driveForwardByInches(44, robot, DejaVuBot.TPS);
-        turnToPID(-90,robot);
+        driveForwardByInches(46, robot, DejaVuBot.TPS);
+        turnToPID(90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
         driveForwardByInches(-6, robot, DejaVuBot.TPS);
@@ -45,7 +45,7 @@ public class AutoBlue2OpMode extends BaseAutoOpMode {
 
         //Move the robot to warehouse for second point
         driveForwardByInches(6, robot, DejaVuBot.TPS);
-        strafeDirection(robot, true, 900);
+        strafeDirection(robot, false, 920);
         /*
         turnToPID(-90,robot);
         driveForwardByInches(-42, robot, DejaVuBot.TPS);
@@ -54,20 +54,21 @@ public class AutoBlue2OpMode extends BaseAutoOpMode {
 
         turnToPID(90, robot);
 */
-        //robot.arm.closeBucketPos();
-        driveForwardByInches(44, robot, DejaVuBot.TPS);
+        robot.arm.closeBucketPos();
+        //robot.intake();
+        driveForwardByInches(45, robot, DejaVuBot.TPS);
         /*
-        robot.intake();
         driveForwardByInches(4, robot, DejaVuBot.TPS);
         sleep(1500);
-        driveForwardByInches(-50, robot, DejaVuBot.TPS);
-        strafeDirection(robot, false, 900);
+        driveForwardByInches(-49, robot, DejaVuBot.TPS);
+        strafeDirection(robot, true, 850);
 
         //driveForwardByInches(44, robot, DejaVuBot.TPS);
         //turnToPID(90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
         driveForwardByInches(-6, robot, DejaVuBot.TPS);
+        robot.stopIntake();
         robot.arm.moveArmToLevel(2);
         sleep(500);
         robot.arm.openBucketPos();
@@ -80,7 +81,7 @@ public class AutoBlue2OpMode extends BaseAutoOpMode {
         telemetry.update();
 
         driveForwardByInches(6, robot, DejaVuBot.TPS);
-        strafeDirection(robot, true, 900);
+        strafeDirection(robot, false, 900);
         //turnToPID(-90,robot);
         //driveForwardByInches(-42, robot, DejaVuBot.TPS);
         telemetry.addData(name, " Driving to wall ");
@@ -89,11 +90,11 @@ public class AutoBlue2OpMode extends BaseAutoOpMode {
         //turnToPID(90, robot);
         robot.arm.closeBucketPos();
         driveForwardByInches(52, robot, DejaVuBot.TPS);
-
-         */
+*/
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");
         telemetry.update();
+
 
     }
 

@@ -22,8 +22,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
     Strafe -> Gyro sensor
     Vision -> OpenCV
 */
-@Autonomous(name="AutoBlue1OpMode", group="AutoOpModes")
-public class AutoBlue1OpMode extends BaseAutoOpMode {
+@Autonomous(name="AutoRed1OpMode", group="AutoOpModes")
+public class AutoRed1OpMode extends BaseAutoOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     String name = "AutoBlue1OpMode";
 
@@ -39,11 +39,12 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         waitForStart();
         //Notes: after dropping, ram into wall, go back 3 inches, turn, move to duck spinner
 
-        driveForwardByInches(46, robot, DejaVuBot.TPS);
-        turnToPID(90,robot);
+        driveForwardByInches(43, robot, DejaVuBot.TPS);
+        turnToPID(-90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
-        driveForwardByInches(-3/2, robot, DejaVuBot.TPS);
+        //changed from 8->9
+        driveForwardByInches(-11/2, robot, DejaVuBot.TPS);
 
         //Drop the piece here and reset the arm to initial position
         robot.arm.moveArmToLevel(2);
@@ -55,23 +56,29 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         robot.arm.moveArmToLevel(1);
         telemetry.addData(name, " Dropped the freight ");
         telemetry.update();
-
+        //changed from 71 -> 72
         //Move the robot to spin the duck
-        driveForwardByInches(37, robot, DejaVuBot.TPS);
-        turnToPID(-90,robot);
+        driveForwardByInches(72/2, robot, DejaVuBot.TPS*1.2);
+        turnToPID(90,robot);
         telemetry.addData(name, " Driving to wall ");
         telemetry.update();
 
-        driveForwardByInches(-34, robot, DejaVuBot.TPS);
+        driveForwardByInches(-31, robot, DejaVuBot.TPS*2);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
-        spinForOneDuck(robot, false);
-        driveForwardByInches(3, robot, DejaVuBot.TPS);
-        turnToPID(90,robot);
+        turnToPID(55, robot);
+        //f
+        driveForwardByInches(-3/2, robot, DejaVuBot.TPS/2);
+        spinForOneDuck(robot, true);
+        turnToPID(-90,robot);
+        //changed from 50 -> 60
+        turnToPID(-55, robot);
+
+
 
         telemetry.addData(name, " Duck spinned ");
         telemetry.update();
 
-        driveForwardByInches(-124, robot, DejaVuBot.TPS * 4);
+        strafeDirection(robot, false, 500);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");
