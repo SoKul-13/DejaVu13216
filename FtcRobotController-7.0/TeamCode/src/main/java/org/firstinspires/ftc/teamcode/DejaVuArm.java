@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import static java.lang.Thread.sleep;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import java.util.HashMap;
 import java.util.Hashtable;
 
@@ -23,7 +21,7 @@ public class DejaVuArm {
     {
         level_map.put(0, -25);
         level_map.put(1, (int) (1 * PULSES_PER_REVOLUTION));
-        level_map.put(2, (int) (1725));
+        level_map.put(2, 1725);
     }
 
     private int currentLevel = 0;
@@ -55,6 +53,7 @@ public class DejaVuArm {
             while (armMotor.isBusy()) {
                 armMotor.setVelocity(SLIDER_TPS);
             }
+            armMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
             armMotor.setPower(0);
             if (armMotor.getCurrentPosition() != level_map.get(level)) {
                 armMotor.setTargetPosition(level_map.get(level));
@@ -62,6 +61,7 @@ public class DejaVuArm {
                 while (armMotor.isBusy()) {
                     armMotor.setVelocity(SLIDER_TPS/4);
                 }
+                armMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
                 armMotor.setPower(0);
             }
             currentLevel = level;
