@@ -23,7 +23,7 @@ public class BaseAutoOpMode extends LinearOpMode {
 
     public double getAbsoluteAngle() {
         return robot.imu.getAngularOrientation(
-                AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES
+                AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES
         ).firstAngle;
     }
 
