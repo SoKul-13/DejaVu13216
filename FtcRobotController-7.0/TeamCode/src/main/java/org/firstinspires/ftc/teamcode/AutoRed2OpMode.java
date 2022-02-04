@@ -50,6 +50,7 @@ public class AutoRed2OpMode extends BaseAutoOpMode {
         robot.arm.closeBucketPos();
         //robot.intake();
         driveForwardByInches(45, robot, DejaVuBot.TPS);
+        strafeDirection(robot, true, 500);
 
         telemetry.addData(name, "Parked in warehouse");
         telemetry.update();
