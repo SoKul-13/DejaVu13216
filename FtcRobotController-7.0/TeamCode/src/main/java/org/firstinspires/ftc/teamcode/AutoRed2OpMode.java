@@ -31,7 +31,7 @@ public class AutoRed2OpMode extends BaseAutoOpMode {
         turnToPID(90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
-        driveForwardByInches(-6, robot, DejaVuBot.TPS);
+        driveForwardByInches(-2, robot, DejaVuBot.TPS);
 
         robot.arm.moveArmToLevel(2);
         sleep(500);
@@ -44,54 +44,13 @@ public class AutoRed2OpMode extends BaseAutoOpMode {
         telemetry.update();
 
         //Move the robot to warehouse for second point
-        driveForwardByInches(6, robot, DejaVuBot.TPS);
+        driveForwardByInches(2, robot, DejaVuBot.TPS);
         strafeDirection(robot, false, 920);
-        /*
-        turnToPID(-90,robot);
-        driveForwardByInches(-42, robot, DejaVuBot.TPS);
-        telemetry.addData(name, " Driving to wall ");
-        telemetry.update();
 
-        turnToPID(90, robot);
-*/
         robot.arm.closeBucketPos();
         //robot.intake();
         driveForwardByInches(45, robot, DejaVuBot.TPS);
-        /*
-        driveForwardByInches(4, robot, DejaVuBot.TPS);
-        sleep(1500);
-        driveForwardByInches(-49, robot, DejaVuBot.TPS);
-        strafeDirection(robot, true, 850);
 
-        //driveForwardByInches(44, robot, DejaVuBot.TPS);
-        //turnToPID(90,robot);
-        telemetry.addData(name, "Turned to hub  ");
-        telemetry.update();
-        driveForwardByInches(-6, robot, DejaVuBot.TPS);
-        robot.stopIntake();
-        robot.arm.moveArmToLevel(2);
-        sleep(500);
-        robot.arm.openBucketPos();
-        sleep(1000);
-        robot.arm.closeBucketPos();
-        sleep(500);
-        robot.arm.moveArmToLevel(0);
-
-        telemetry.addData(name, " Dropped the freight ");
-        telemetry.update();
-
-        driveForwardByInches(6, robot, DejaVuBot.TPS);
-        strafeDirection(robot, false, 900);
-        //turnToPID(-90,robot);
-        //driveForwardByInches(-42, robot, DejaVuBot.TPS);
-        telemetry.addData(name, " Driving to wall ");
-        telemetry.update();
-
-        //turnToPID(90, robot);
-        robot.arm.closeBucketPos();
-        driveForwardByInches(52, robot, DejaVuBot.TPS);
-*/
-        // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");
         telemetry.update();
 
