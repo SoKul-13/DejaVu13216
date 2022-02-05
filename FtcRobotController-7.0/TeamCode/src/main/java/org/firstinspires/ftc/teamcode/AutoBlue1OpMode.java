@@ -43,7 +43,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         turnToPID(90,robot);
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
-        driveForwardByInches(-3/2, robot, DejaVuBot.TPS);
+        driveForwardByInches(-14/2, robot, DejaVuBot.TPS);
 
         //Drop the piece here and reset the arm to initial position
         robot.arm.moveArmToLevel(2);
@@ -52,7 +52,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         sleep(1000);
         robot.arm.bucketServo.setPosition(0.887);
         sleep(500);
-        robot.arm.moveArmToLevel(1);
+        robot.arm.moveArmToLevel(0);
         telemetry.addData(name, " Dropped the freight ");
         telemetry.update();
 
@@ -65,13 +65,12 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         driveForwardByInches(-34, robot, DejaVuBot.TPS);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
         spinForOneDuck(robot, false);
-        driveForwardByInches(3, robot, DejaVuBot.TPS);
+        driveForwardByInches(21, robot, DejaVuBot.TPS);
         turnToPID(90,robot);
 
         telemetry.addData(name, " Duck spinned ");
         telemetry.update();
 
-        driveForwardByInches(-124, robot, DejaVuBot.TPS * 4);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");

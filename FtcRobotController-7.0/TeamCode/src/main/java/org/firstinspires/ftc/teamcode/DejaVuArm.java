@@ -13,16 +13,19 @@ public class DejaVuArm {
     /* Public OpMode members. */
     public DcMotorEx armMotor = null;
     public Servo bucketServo = null;
+    public DcMotorEx intakeMotor = null;
     static final double PULSES_PER_REVOLUTION = 751.8;
 
     //max rpm for our arm motor is 1,850, here we're using 1750 rpm
     public static double SLIDER_TPS = 2200.0;
     static HashMap<Integer, Integer> level_map = new HashMap<>();
     {
-        level_map.put(0, -25);
-        //1, 1221
-        level_map.put(1, (int) (1 * PULSES_PER_REVOLUTION));
+        level_map.put(0, 0);
+        level_map.put(1, 1221);
         level_map.put(2, 1860);
+        //set level 3 encoder value to 1 3/4 in
+        //safety check -> servo should not be flipped if the arm wants to come down +
+        //safety check -> arm should not come down if the green wheel is on
     }
 
     private int currentLevel = 0;
@@ -47,10 +50,14 @@ public class DejaVuArm {
 
 
     public void moveArmToLevel(int level) {
+
         if(level != currentLevel) {
+            
             int l = level_map.get(level);
             armMotor.setTargetPosition(l);
+
             this.armMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
             while (armMotor.isBusy()) {
                 armMotor.setVelocity(SLIDER_TPS);
             }
