@@ -20,8 +20,9 @@ public class DejaVuArm {
     static HashMap<Integer, Integer> level_map = new HashMap<>();
     {
         level_map.put(0, -25);
+        //1, 1221
         level_map.put(1, (int) (1 * PULSES_PER_REVOLUTION));
-        level_map.put(2, 1725);
+        level_map.put(2, 1860);
     }
 
     private int currentLevel = 0;
