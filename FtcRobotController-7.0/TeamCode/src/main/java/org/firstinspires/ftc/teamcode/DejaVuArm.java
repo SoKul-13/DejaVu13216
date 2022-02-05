@@ -20,7 +20,7 @@ public class DejaVuArm {
     public static double SLIDER_TPS = 2200.0;
     static HashMap<Integer, Integer> level_map = new HashMap<>();
     {
-        level_map.put(0, 0);
+        level_map.put(0, 25);
         level_map.put(1, 1221);
         level_map.put(2, 1860);
         //set level 3 encoder value to 1 3/4 in
