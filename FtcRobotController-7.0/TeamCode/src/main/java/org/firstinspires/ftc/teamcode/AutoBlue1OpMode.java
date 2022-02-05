@@ -50,7 +50,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         sleep(500);
         robot.arm.bucketServo.setPosition(0.113);
         sleep(1000);
-        robot.arm.bucketServo.setPosition(0.887);
+        robot.arm.bucketServo.setPosition(0.865);
         sleep(500);
         robot.arm.moveArmToLevel(0);
         telemetry.addData(name, " Dropped the freight ");
