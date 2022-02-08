@@ -50,7 +50,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
         sleep(500);
         robot.arm.bucketServo.setPosition(0.113);
         sleep(1000);
-        robot.arm.bucketServo.setPosition(0.865);
+        robot.arm.bucketServo.setPosition(0.875);
         sleep(500);
         robot.arm.moveArmToLevel(0);
         telemetry.addData(name, " Dropped the freight ");
@@ -64,7 +64,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
 
         driveForwardByInches(-34, robot, DejaVuBot.TPS);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
-        spinForOneDuck(robot, false);
+        spinForOneDuck(robot, true);
         driveForwardByInches(21, robot, DejaVuBot.TPS);
         turnToPID(90,robot);
 
