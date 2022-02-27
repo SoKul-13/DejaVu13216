@@ -51,7 +51,7 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         sleep(500);
         robot.arm.bucketServo.setPosition(0.113);
         sleep(1000);
-        robot.arm.bucketServo.setPosition(0.887);
+        robot.arm.bucketServo.setPosition(0.885);
         sleep(500);
         robot.arm.moveArmToLevel(0);
         telemetry.addData(name, " Dropped the freight ");

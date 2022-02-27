@@ -31,7 +31,7 @@ public class BaseAutoOpMode extends LinearOpMode {
         turnToPID(degrees + getAbsoluteAngle(),bot);
     }
 
-    void turnToPID(double targetAngle, DejaVuBot bot) {
+    public void turnToPID(double targetAngle, DejaVuBot bot) {
         bot.gyroInit();
         bot.chassisEncoderOff();
         if(targetAngle < 0){

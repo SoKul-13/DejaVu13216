@@ -37,9 +37,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.Base64;
-import java.util.concurrent.TimeUnit;
-
 public class DejaVuBot {
     /* Public OpMode members. */
     public DcMotorEx leftFrontMotor;

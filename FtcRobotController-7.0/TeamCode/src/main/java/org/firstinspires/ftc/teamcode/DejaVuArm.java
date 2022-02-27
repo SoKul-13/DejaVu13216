@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-import static java.lang.Thread.sleep;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
 import java.util.HashMap;
-import java.util.Hashtable;
 
 public class DejaVuArm {
     /* Public OpMode members. */
@@ -15,14 +13,17 @@ public class DejaVuArm {
     public Servo bucketServo = null;
     public DcMotorEx intakeMotor = null;
     static final double PULSES_PER_REVOLUTION = 751.8;
+    public static final int TOP_LEVEL=2;
+    public static final int MID_LEVEL=1;
+    public static final int BOTTOM_LEVEL=0;
 
     //max rpm for our arm motor is 1,850, here we're using 1750 rpm
     public static double SLIDER_TPS = 2200.0;
     static HashMap<Integer, Integer> level_map = new HashMap<>();
     {
-        level_map.put(0, 25);
-        level_map.put(1, 1221);
-        level_map.put(2, 1860);
+        level_map.put(BOTTOM_LEVEL, 0);//25
+        level_map.put(MID_LEVEL, 1221);//1221
+        level_map.put(TOP_LEVEL, 1860);//1860
         //set level 3 encoder value to 1 3/4 in
         //safety check -> servo should not be flipped if the arm wants to come down +
         //safety check -> arm should not come down if the green wheel is on
@@ -80,7 +81,7 @@ public class DejaVuArm {
     }
 
     public void closeBucketPos() {
-        bucketServo.setPosition(0.887);
+        bucketServo.setPosition(0.885);
     }
     public void resetArmMotor() { armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);}
 
