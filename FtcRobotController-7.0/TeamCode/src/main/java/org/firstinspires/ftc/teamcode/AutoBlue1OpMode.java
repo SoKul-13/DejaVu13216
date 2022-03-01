@@ -64,7 +64,7 @@ public class AutoBlue1OpMode extends BaseAutoOpMode {
 
         driveForwardByInches(-34, robot, DejaVuBot.TPS);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
-        spinForOneDuck(robot, false);
+        spinForOneDuck(robot, true);
         driveForwardByInches(21, robot, DejaVuBot.TPS);
         turnToPID(90,robot);
 

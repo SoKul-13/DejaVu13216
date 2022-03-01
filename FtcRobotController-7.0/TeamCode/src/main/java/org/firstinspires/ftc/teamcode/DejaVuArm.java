@@ -81,7 +81,11 @@ public class DejaVuArm {
     }
 
     public void closeBucketPos() {
+<<<<<<< HEAD
         bucketServo.setPosition(0.885);
+=======
+        bucketServo.setPosition(0.875);
+>>>>>>> b4a632cb8794fcb691b30663e59e6684aefa81de
     }
     public void resetArmMotor() { armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);}
 

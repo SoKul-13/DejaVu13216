@@ -45,7 +45,7 @@ public class AutoBlue2OpMode extends BaseAutoOpMode {
         telemetry.update();
 
         //Move the robot to warehouse for second point
-        driveForwardByInches(2, robot, DejaVuBot.TPS);
+        driveForwardByInches(4, robot, DejaVuBot.TPS);
         strafeDirection(robot, true, 900);
 
         driveForwardByInches(36, robot, DejaVuBot.TPS);
