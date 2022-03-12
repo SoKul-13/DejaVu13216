@@ -44,41 +44,42 @@ public class AutoRed1OpMode extends BaseAutoOpMode {
         telemetry.addData(name, "Turned to hub  ");
         telemetry.update();
         //changed from 8->9
-        driveForwardByInches(-11/2, robot, DejaVuBot.TPS);
+        driveForwardByInches(-16/2, robot, DejaVuBot.TPS);
 
         //Drop the piece here and reset the arm to initial position
         robot.arm.moveArmToLevel(2);
         sleep(500);
         robot.arm.bucketServo.setPosition(0.113);
         sleep(1000);
-        robot.arm.bucketServo.setPosition(0.887);
+        robot.arm.bucketServo.setPosition(0.875);
         sleep(500);
-        robot.arm.moveArmToLevel(1);
+        robot.arm.moveArmToLevel(0);
         telemetry.addData(name, " Dropped the freight ");
         telemetry.update();
         //changed from 71 -> 72
         //Move the robot to spin the duck
-        driveForwardByInches(72/2, robot, DejaVuBot.TPS*1.2);
+        driveForwardByInches(74/2, robot, DejaVuBot.TPS*1.2);
         turnToPID(90,robot);
         telemetry.addData(name, " Driving to wall ");
         telemetry.update();
 
         driveForwardByInches(-31, robot, DejaVuBot.TPS*2);
         driveForwardByInches(-2, robot, DejaVuBot.TPS/2);
-        turnToPID(55, robot);
+        turnToPID(50, robot);
         //f
         driveForwardByInches(-3/2, robot, DejaVuBot.TPS/2);
         spinForOneDuck(robot, true);
-        turnToPID(-90,robot);
+        turnToPID(-40,robot);
         //changed from 50 -> 60
-        turnToPID(-55, robot);
+        //changed from 55->40 2/2/22
+        turnToPID(-40, robot);
 
 
 
         telemetry.addData(name, " Duck spinned ");
         telemetry.update();
 
-        strafeDirection(robot, false, 500);
+        strafeDirection(robot, false, 300);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(name, "Parked in warehouse");

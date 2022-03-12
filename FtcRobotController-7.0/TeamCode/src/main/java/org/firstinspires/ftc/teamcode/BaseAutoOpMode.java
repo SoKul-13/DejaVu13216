@@ -23,7 +23,7 @@ public class BaseAutoOpMode extends LinearOpMode {
 
     public double getAbsoluteAngle() {
         return robot.imu.getAngularOrientation(
-                AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES
+                AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES
         ).firstAngle;
     }
 
@@ -40,7 +40,7 @@ public class BaseAutoOpMode extends LinearOpMode {
             PIDUtils pid = new PIDUtils(targetAngle, 0.0015, 0, 0.003);
             telemetry.setMsTransmissionInterval(50);
             // Checking lastSlope to make sure that it's not "oscillating" when it quits
-            telemetry.addData(" turnToPID sTART abs angle = ", getAbsoluteAngle());
+            telemetry.addData(" turnToPID start abs angle = ", getAbsoluteAngle());
             telemetry.addData(" turnToPID start diff = ", Math.abs(targetAngle - Math.abs(getAbsoluteAngle())));
             telemetry.addData(" turnToPID start slope = ", pid.getLastSlope());
             telemetry.update();
