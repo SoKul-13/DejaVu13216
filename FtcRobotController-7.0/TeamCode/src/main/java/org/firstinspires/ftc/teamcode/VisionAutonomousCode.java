@@ -1,2 +1,3 @@
-package org.firstinspires.ftc.teamcode;public class VisionAutonomousCode {
+package org.firstinspires.ftc.teamcode;
+public class VisionAutonomousCode {
 }
