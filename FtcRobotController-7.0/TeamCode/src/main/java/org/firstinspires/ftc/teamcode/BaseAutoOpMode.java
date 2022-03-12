@@ -19,7 +19,7 @@ public class BaseAutoOpMode extends LinearOpMode {
     private Orientation lastAngles = new Orientation();
     private double currAngle = 0.0;
     private int allowedAngleDiff = 1;
-    DejaVuBot robot = new DejaVuBot();
+    protected DejaVuBot robot = new DejaVuBot();
 
     public double getAbsoluteAngle() {
         return robot.imu.getAngularOrientation(
@@ -31,7 +31,7 @@ public class BaseAutoOpMode extends LinearOpMode {
         turnToPID(degrees + getAbsoluteAngle(),bot);
     }
 
-    void turnToPID(double targetAngle, DejaVuBot bot) {
+    public void turnToPID(double targetAngle, DejaVuBot bot) {
         bot.gyroInit();
         bot.chassisEncoderOff();
         if(targetAngle < 0){
@@ -45,7 +45,8 @@ public class BaseAutoOpMode extends LinearOpMode {
             telemetry.addData(" turnToPID start slope = ", pid.getLastSlope());
             telemetry.update();
 
-            while (opModeIsActive() && (Math.abs(targetAngle - Math.abs(getAbsoluteAngle())) > allowedAngleDiff || pid.getLastSlope() > 0.75)) {
+            while (opModeIsActive() &&
+                    (Math.abs(targetAngle - Math.abs(getAbsoluteAngle())) > allowedAngleDiff || pid.getLastSlope() > 0.75)) {
                 double motorPower = pid.update(getAbsoluteAngle());
 
                 bot.leftFrontMotor.setPower(-motorPower);

@@ -15,6 +15,9 @@ public class DejaVuArm {
     public Servo bucketServo = null;
     public DcMotorEx intakeMotor = null;
     static final double PULSES_PER_REVOLUTION = 751.8;
+    public static final int TOP_LEVEL=2;
+    public static final int MID_LEVEL=1;
+    public static final int BOTTOM_LEVEL=0;
 
     //max rpm for our arm motor is 1,850, here we're using 1750 rpm
     public static double SLIDER_TPS = 2200.0;

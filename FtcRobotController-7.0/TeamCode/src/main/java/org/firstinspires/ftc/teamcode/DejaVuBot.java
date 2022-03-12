@@ -63,7 +63,7 @@ public class DejaVuBot {
     //motor constants for auton calculations
     static final double WHEEL_CIRCUMFERENCE_MM = 96 * Math.PI;
     static final int CAROUSAL_DIAMETER_INCHES = 15;
-    static final int ONE_DUCK_SPIN_TARGET_LENGTH = (int) (2.5 *( Math.PI * CAROUSAL_DIAMETER_INCHES * DejaVuBot.COUNT_PER_INCH));
+    static final int ONE_DUCK_SPIN_TARGET_LENGTH = (int) (2.0 *( Math.PI * CAROUSAL_DIAMETER_INCHES * DejaVuBot.COUNT_PER_INCH));
 
     static final double COUNTS_PER_MOTOR_REV = 28.0;
     static final double DRIVE_GEAR_REDUCTION = 16.25;
