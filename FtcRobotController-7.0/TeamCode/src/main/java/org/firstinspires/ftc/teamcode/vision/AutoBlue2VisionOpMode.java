@@ -55,7 +55,7 @@ public class AutoBlue2VisionOpMode extends BaseAutoVisionOpMode {
         turnToPID(-85,robot);
         telemetry.addData(TAG, "Turned to hub  ");
         telemetry.update();
-        driveForwardByInches(6, robot, DejaVuBot.TPS);
+        driveForwardByInches(-7, robot, DejaVuBot.TPS);
 
         robot.arm.moveArmToLevel(currentLevel);
         sleep(500);
@@ -71,7 +71,7 @@ public class AutoBlue2VisionOpMode extends BaseAutoVisionOpMode {
         driveForwardByInches(1, robot, DejaVuBot.TPS);
         turnToPID(-8, robot);
 
-        strafeDirection(robot, true, 1224);
+        strafeDirection(robot, true, 1424);
 
         robot.arm.closeBucketPos();
         //robot.intake();
@@ -79,7 +79,7 @@ public class AutoBlue2VisionOpMode extends BaseAutoVisionOpMode {
         sleep(500);
         strafeDirection(robot, false, 600);
 
-        driveForwardByInches(-10, robot, DejaVuBot.TPS);
+        driveForwardByInches(-5, robot, DejaVuBot.TPS);
 
         telemetry.addData(TAG, "Parked in warehouse");
         telemetry.update();
