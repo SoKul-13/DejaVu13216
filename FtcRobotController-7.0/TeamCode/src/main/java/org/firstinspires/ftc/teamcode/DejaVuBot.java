@@ -63,7 +63,7 @@ public class DejaVuBot {
     //motor constants for auton calculations
     static final double WHEEL_CIRCUMFERENCE_MM = 96 * Math.PI;
     static final int CAROUSAL_DIAMETER_INCHES = 15;
-    static final int ONE_DUCK_SPIN_TARGET_LENGTH = (int) (2.0 *( Math.PI * CAROUSAL_DIAMETER_INCHES * DejaVuBot.COUNT_PER_INCH));
+    static final int ONE_DUCK_SPIN_TARGET_LENGTH = (int) (2.15 *( Math.PI * CAROUSAL_DIAMETER_INCHES * DejaVuBot.COUNT_PER_INCH));
 
     static final double COUNTS_PER_MOTOR_REV = 28.0;
     static final double DRIVE_GEAR_REDUCTION = 16.25;
@@ -74,7 +74,7 @@ public class DejaVuBot {
     public static final double COUNT_PER_INCH = COUNT_PER_FT/12;
 
     //max rpm for our motors are 338, here we're using 175 rpm
-    public static double TPS = (double) ((175/60) * COUNTS_PER_WHEEL_REV);
+    public static double TPS = (double) ((185/60) * COUNTS_PER_WHEEL_REV);
 
     public double INTAKE_MOTOR_SPEED = 1.0;
 

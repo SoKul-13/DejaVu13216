@@ -18,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class BaseAutoOpMode extends LinearOpMode {
     private Orientation lastAngles = new Orientation();
     private double currAngle = 0.0;
-    private int allowedAngleDiff = 1;
+    private int allowedAngleDiff = 3;
     protected DejaVuBot robot = new DejaVuBot();
 
     public double getAbsoluteAngle() {
@@ -153,15 +153,15 @@ public class BaseAutoOpMode extends LinearOpMode {
     public void strafeDirection(DejaVuBot bot, boolean left, int milliseconds) {
         bot.setModeForAllMotors(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if(left) {
-            bot.leftFrontMotor.setPower(-1.0);
-            bot.leftBackMotor.setPower(1.0);
-            bot.rightFrontMotor.setPower(1.0);
-            bot.rightBackMotor.setPower(-1.0);
+            bot.leftFrontMotor.setPower(-0.85);
+            bot.leftBackMotor.setPower(0.85);
+            bot.rightFrontMotor.setPower(0.85);
+            bot.rightBackMotor.setPower(-0.85);
         } else {
-            bot.leftFrontMotor.setPower(1.0);
-            bot.leftBackMotor.setPower(-1.0);
-            bot.rightFrontMotor.setPower(-1.0);
-            bot.rightBackMotor.setPower(1.0);
+            bot.leftFrontMotor.setPower(0.85);
+            bot.leftBackMotor.setPower(-0.85);
+            bot.rightFrontMotor.setPower(-0.85);
+            bot.rightBackMotor.setPower(0.85);
         }
         sleep(milliseconds);
         bot.setModeForAllMotors(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
